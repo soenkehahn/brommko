@@ -24,4 +24,10 @@ describe("player", () => {
     scene.step("ArrowLeft");
     expect(scene.player).toEqual({ x: -1, y: 0 });
   });
+
+  it("can be moved right", () => {
+    const scene = new Scene();
+    scene.step("ArrowRight");
+    expect(scene.player).toEqual({ x: 1, y: 0 });
+  });
 });
