@@ -38,10 +38,11 @@ export class Render extends Component<{ scene: Scene }> {
   render() {
     return (
       <svg width={this.svgWidth} height={this.svgHeight}>
-        {this.renderRect(this.props.scene.player, "green")}
         {Array.from(this.props.scene.walls).map(wall =>
           this.renderRect(wall, "grey")
         )}
+        {this.renderRect(this.props.scene.goal, "green")}
+        {this.renderRect(this.props.scene.player, "blue")}
       </svg>
     );
   }

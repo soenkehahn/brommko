@@ -12,26 +12,33 @@ describe("renderScene", () => {
     expect(wrapper.find("rect")).toExist();
   });
 
+  function getPlayerProps(wrapper) {
+    return wrapper
+      .find("rect")
+      .findWhere(x => x.props().fill === "blue")
+      .props();
+  }
+
+  function renderPlayerProps(scene) {
+    const wrapper = mount(<Render scene={scene} />);
+    return getPlayerProps(wrapper);
+  }
+
   it("updates the player on scene changes", () => {
     const scene = new Scene();
     const wrapper = mount(<Render scene={scene} />);
-    const initialY = wrapper.find("rect").props().y;
+    const initialY = getPlayerProps(wrapper).y;
     scene.step("ArrowUp");
     wrapper.setProps({ scene: scene });
-    const lastY = wrapper.find("rect").props().y;
+    const lastY = getPlayerProps(wrapper).y;
     expect(lastY).toBeLessThan(initialY);
   });
 
-  function getPlayerProps(scene) {
-    const wrapper = mount(<Render scene={scene} />);
-    return wrapper.find("rect").props();
-  }
-
   it("renders the x position", () => {
     const scene = new Scene();
-    const initialProps = getPlayerProps(scene);
+    const initialProps = renderPlayerProps(scene);
     scene.player.x = 3;
-    const nextProps = getPlayerProps(scene);
+    const nextProps = renderPlayerProps(scene);
     expect(nextProps.x).toBeGreaterThan(initialProps.x);
   });
 });

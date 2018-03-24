@@ -41,4 +41,21 @@ describe("player", () => {
       expect(scene.player).toEqual({ x: 0, y: 0 });
     });
   });
+
+  describe("goal", () => {
+    it("sets success when the player reaches the goal", () => {
+      const scene = new Scene();
+      scene.goal = { x: 0, y: 1 };
+      scene.step("ArrowUp");
+      expect(scene.success).toBe(true);
+    });
+
+    it("stops simulating the game when goal is reached", () => {
+      const scene = new Scene();
+      scene.goal = { x: 0, y: 1 };
+      scene.step("ArrowUp");
+      scene.step("ArrowUp");
+      expect(scene.player).toEqual({ x: 0, y: 1 });
+    });
+  });
 });
