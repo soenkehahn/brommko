@@ -13,7 +13,7 @@ export class App extends Component<{}, { scene: Scene }> {
 
   componentWillMount() {
     handleKeyboard(event => {
-      this.state.scene.step([event.code]);
+      this.state.scene.step(event.code);
       this.setState({ scene: this.state.scene });
     });
   }

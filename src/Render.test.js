@@ -16,7 +16,7 @@ describe("renderScene", () => {
     const scene = new Scene();
     const wrapper = mount(<Render scene={scene} />);
     const initialY = wrapper.find("rect").props().y;
-    scene.step(["ArrowUp"]);
+    scene.step("ArrowUp");
     wrapper.setProps({ scene: scene });
     const lastY = wrapper.find("rect").props().y;
     expect(lastY).toBeLessThan(initialY);
