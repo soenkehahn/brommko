@@ -19,6 +19,6 @@ describe("renderScene", () => {
     scene.step(["ArrowUp"]);
     wrapper.setProps({ scene: scene });
     const lastY = wrapper.find("rect").props().y;
-    expect(lastY).toBeGreaterThan(initialY);
+    expect(lastY).toBeLessThan(initialY);
   });
 });
