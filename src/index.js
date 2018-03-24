@@ -2,7 +2,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "./App";
+import { mkApp } from "./App";
+import { Scene } from "./scene";
+
+const scene = new Scene();
+scene.walls = new Set([{ x: 0, y: 1 }]);
+const App = mkApp(scene);
 
 const domElement = document.getElementById("root");
 if (!domElement) {

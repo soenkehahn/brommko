@@ -1,21 +1,33 @@
 // @flow
 
+import _ from "lodash";
+
+export type Position = { x: number, y: number };
+
 export class Scene {
-  player: { x: number, y: number };
+  player: Position;
+
+  walls: Set<Position>;
 
   constructor() {
     this.player = { x: 0, y: 0 };
+    this.walls = new Set();
   }
 
   step(keycode: string) {
+    const newPlayer = _.cloneDeep(this.player);
     if (keycode === "ArrowUp") {
-      this.player.y++;
+      newPlayer.y++;
     } else if (keycode === "ArrowDown") {
-      this.player.y--;
+      newPlayer.y--;
     } else if (keycode === "ArrowLeft") {
-      this.player.x--;
+      newPlayer.x--;
     } else if (keycode === "ArrowRight") {
-      this.player.x++;
+      newPlayer.x++;
+    }
+    const isInWall = _.some(Array.from(this.walls), newPlayer);
+    if (!isInWall) {
+      this.player = newPlayer;
     }
   }
 }

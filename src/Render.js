@@ -1,16 +1,18 @@
 // @flow
 
-import React, { Component } from "react";
-import { Scene } from "./scene";
+import React, { Component, type Element } from "react";
+import { Scene, type Position } from "./scene";
 
 export class Render extends Component<{ scene: Scene }> {
   svgWidth: number;
   svgHeight: number;
+  size: number;
 
   constructor() {
     super();
     this.svgWidth = 800;
     this.svgHeight = 500;
+    this.size = 40;
   }
 
   transformX(x: number): number {
@@ -21,17 +23,25 @@ export class Render extends Component<{ scene: Scene }> {
     return this.svgHeight / 2 + y;
   }
 
+  renderRect(position: Position, color: string): Element<*> {
+    return (
+      <rect
+        x={this.transformX(position.x * this.size)}
+        y={this.transformY(-position.y * this.size)}
+        width={this.size}
+        height={this.size}
+        fill={color}
+      />
+    );
+  }
+
   render() {
-    const size = 40;
     return (
       <svg width={this.svgWidth} height={this.svgHeight}>
-        <rect
-          x={this.transformX(this.props.scene.player.x * size)}
-          y={this.transformY(-this.props.scene.player.y * size)}
-          width={size}
-          height={size}
-          fill="green"
-        />
+        {this.renderRect(this.props.scene.player, "green")}
+        {Array.from(this.props.scene.walls).map(wall =>
+          this.renderRect(wall, "grey")
+        )}
       </svg>
     );
   }
