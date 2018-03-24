@@ -19,6 +19,6 @@
     "webpack-dev-server": "^3.1.1"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js"
+    "setupTestFrameworkScriptFile": "./src/setup_tests.js"
   }
 }
