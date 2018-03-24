@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import { mount } from "enzyme";
 import { handleKeyboard } from "./keyboard";
+import { simulateKeyEvent } from "./test-utils";
 
 class Test extends Component<{}, { keydowns: Array<string> }> {
   constructor(props) {
@@ -36,11 +37,3 @@ describe("handleKeyboard", () => {
     expect(wrapper.text()).toBe('["ArrowUp","ArrowDown"]');
   });
 });
-
-function simulateKeyEvent(type: KeyboardEventTypes, code: string) {
-  const event = new KeyboardEvent(type, {
-    code: code,
-    repeat: false
-  });
-  document.dispatchEvent(event);
-}

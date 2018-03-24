@@ -1,8 +1,9 @@
 // @flow
 
 import React, { Component } from "react";
+import { Scene } from "./scene";
 
-export class Render extends Component<{}> {
+export class Render extends Component<{ scene: Scene }> {
   svgWidth: number;
   svgHeight: number;
 
@@ -26,7 +27,7 @@ export class Render extends Component<{}> {
       <svg width={this.svgWidth} height={this.svgHeight}>
         <rect
           x={this.transformX(0)}
-          y={this.transformY(0)}
+          y={this.transformY(this.props.scene.player.y * 10)}
           width={size}
           height={size}
           fill="green"
