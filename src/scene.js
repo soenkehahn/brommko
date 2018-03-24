@@ -7,7 +7,7 @@ export type Position = { x: number, y: number };
 export class Scene {
   player: Position;
 
-  walls: Set<Position>;
+  walls: Array<Position>;
 
   goal: Position;
 
@@ -15,7 +15,7 @@ export class Scene {
 
   constructor() {
     this.player = { x: 0, y: 0 };
-    this.walls = new Set();
+    this.walls = [];
     this.goal = { x: 0, y: 1 };
     this.success = false;
   }
@@ -32,7 +32,7 @@ export class Scene {
       } else if (keycode === "ArrowRight") {
         newPlayer.x++;
       }
-      const isInWall = _.some(Array.from(this.walls), newPlayer);
+      const isInWall = _.some(this.walls, newPlayer);
       if (!isInWall) {
         this.player = newPlayer;
       }

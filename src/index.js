@@ -6,7 +6,7 @@ import { mkApp } from "./App";
 import { Scene } from "./scene";
 
 const scene = new Scene();
-scene.walls = new Set([{ x: 1, y: 1 }]);
+scene.walls = [{ x: 1, y: 1 }];
 const App = mkApp(scene);
 
 const domElement = document.getElementById("root");

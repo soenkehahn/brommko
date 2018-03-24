@@ -36,7 +36,7 @@ describe("player", () => {
   describe("walls", () => {
     it("prevents the player from entering walls", () => {
       const scene = new Scene();
-      scene.walls = new Set([{ x: 0, y: 1 }]);
+      scene.walls = [{ x: 0, y: 1 }];
       scene.step("ArrowUp");
       expect(scene.player).toEqual({ x: 0, y: 0 });
     });
