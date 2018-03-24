@@ -7,7 +7,11 @@ export class Scene {
     this.player = { x: 0, y: 0 };
   }
 
-  step(controls: string) {
-    this.player.y++;
+  step(keycode: string) {
+    if (keycode === "ArrowUp") {
+      this.player.y++;
+    } else if (keycode === "ArrowDown") {
+      this.player.y--;
+    }
   }
 }
