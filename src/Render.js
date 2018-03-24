@@ -26,7 +26,7 @@ export class Render extends Component<{ scene: Scene }> {
     return (
       <svg width={this.svgWidth} height={this.svgHeight}>
         <rect
-          x={this.transformX(0)}
+          x={this.transformX(this.props.scene.player.x * 10)}
           y={this.transformY(-this.props.scene.player.y * 10)}
           width={size}
           height={size}

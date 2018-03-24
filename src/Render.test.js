@@ -21,4 +21,17 @@ describe("renderScene", () => {
     const lastY = wrapper.find("rect").props().y;
     expect(lastY).toBeLessThan(initialY);
   });
+
+  function getPlayerProps(scene) {
+    const wrapper = mount(<Render scene={scene} />);
+    return wrapper.find("rect").props();
+  }
+
+  it("renders the x position", () => {
+    const scene = new Scene();
+    const initialProps = getPlayerProps(scene);
+    scene.player.x = 3;
+    const nextProps = getPlayerProps(scene);
+    expect(nextProps.x).toBeGreaterThan(initialProps.x);
+  });
 });

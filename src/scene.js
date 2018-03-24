@@ -12,6 +12,8 @@ export class Scene {
       this.player.y++;
     } else if (keycode === "ArrowDown") {
       this.player.y--;
+    } else if (keycode === "ArrowLeft") {
+      this.player.x--;
     }
   }
 }
