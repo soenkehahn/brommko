@@ -3,15 +3,15 @@
 import { Scene } from "./scene.js";
 import _ from "lodash";
 
-export function findPath(scene: Scene): Array<string> {
-  return findFirst(mkAllPaths(), path => {
+export function findPath(maxLength: number, scene: Scene): ?Array<string> {
+  return findFirst(mkAllPaths(maxLength), path => {
     const clone = _.cloneDeep(scene);
     simulate(clone, path);
     return clone.success;
   });
 }
 
-export function mkAllPaths(): Stream<Array<string>> {
+export function mkAllPaths(maxLength: number): Stream<Array<string>> {
   let path = [];
 
   function step(n: number) {
@@ -35,8 +35,12 @@ export function mkAllPaths(): Stream<Array<string>> {
 
   return {
     next: () => {
-      step(0);
-      return _.cloneDeep(path).reverse();
+      if (path.length <= maxLength) {
+        step(0);
+        return _.cloneDeep(path).reverse();
+      } else {
+        return null;
+      }
     }
   };
 }
@@ -48,14 +52,13 @@ function simulate(scene: Scene, path: Array<string>): void {
 }
 
 type Stream<A> = {
-  next: () => A
+  next: () => ?A
 };
 
-function findFirst<A>(stream: Stream<A>, predicate: A => boolean): A {
-  const element = stream.next();
-  if (predicate(element)) {
-    return element;
-  } else {
-    return findFirst(stream, predicate);
+function findFirst<A>(stream: Stream<A>, predicate: A => boolean): ?A {
+  let element = stream.next();
+  while (element && !predicate(element)) {
+    element = stream.next();
   }
+  return element;
 }

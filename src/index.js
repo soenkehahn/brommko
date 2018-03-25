@@ -4,9 +4,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { mkApp } from "./app";
 import { Scene } from "./scene";
+import { mkScene } from "./search";
 
-const scene = new Scene();
-scene.walls = [{ x: 1, y: 1 }];
+const scene = mkScene();
 const App = mkApp(scene);
 
 const domElement = document.getElementById("root");

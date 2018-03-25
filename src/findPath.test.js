@@ -6,19 +6,35 @@ import { findPath, mkAllPaths } from "./findPath";
 describe("findPath", () => {
   it("finds a solution to a simple scene", () => {
     const scene = new Scene();
-    expect(findPath(scene)).toEqual(["ArrowUp"]);
+    expect(findPath(5, scene)).toEqual(["ArrowUp"]);
   });
 
   it("finds a longer solution", () => {
     const scene = new Scene();
     scene.goal = { x: 0, y: 3 };
-    expect(findPath(scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
+    expect(findPath(5, scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
+  });
+
+  it("aborts after trying many solutions", () => {
+    const scene = new Scene();
+    scene.goal = { x: 0, y: 2 };
+    scene.walls = [
+      { x: -1, y: 3 },
+      { x: 0, y: 3 },
+      { x: 1, y: 3 },
+      { x: -1, y: 2 },
+      { x: 1, y: 2 },
+      { x: -1, y: 1 },
+      { x: 0, y: 1 },
+      { x: 1, y: 1 }
+    ];
+    expect(findPath(5, scene)).toEqual(null);
   });
 });
 
 describe("mkAllPaths", () => {
   it("enumerates paths", () => {
-    const allPaths = mkAllPaths();
+    const allPaths = mkAllPaths(20);
     expect(allPaths.next()).toEqual(["ArrowUp"]);
     expect(allPaths.next()).toEqual(["ArrowLeft"]);
     expect(allPaths.next()).toEqual(["ArrowRight"]);
@@ -32,7 +48,7 @@ describe("mkAllPaths", () => {
   });
 
   it("goes on for a long time", () => {
-    const allPaths = mkAllPaths();
+    const allPaths = mkAllPaths(20);
     for (const i of Array(1000)) {
       allPaths.next();
     }

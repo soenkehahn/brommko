@@ -1,8 +1,27 @@
 // @flow
 
 import _ from "lodash";
+import { deleteIndex } from "./utils";
 
 export type Position = { x: number, y: number };
+
+function randomInt(lower, upper) {
+  return Math.floor(Math.random() * Math.floor(1 + upper - lower)) + lower;
+}
+
+function randomPosition(): Position {
+  return { x: randomInt(-5, 5), y: randomInt(-5, 5) };
+}
+
+function mutatePosition({ x, y }): Position {
+  if (Math.random() < 1 / 3) {
+    return { x: randomInt(-5, 5), y };
+  } else if (Math.random() < 2 / 3) {
+    return { x, y: randomInt(-5, 5) };
+  } else {
+    return { x: randomInt(-5, 5), y: randomInt(-5, 5) };
+  }
+}
 
 export class Scene {
   player: Position;
@@ -39,6 +58,33 @@ export class Scene {
       if (_.isEqual(this.player, this.goal)) {
         this.success = true;
       }
+    }
+  }
+
+  mutate() {
+    if (Math.random() < 0.5) {
+      this.goal = mutatePosition(this.goal);
+    } else {
+      this.walls = mutateArray(randomPosition, mutatePosition, this.walls);
+    }
+  }
+}
+
+function mutateArray<A>(
+  mkNew: () => A,
+  mutate: A => A,
+  array: Array<A>
+): Array<A> {
+  const random = Math.random();
+  if (random < 1 / (array.length + 1)) {
+    return array.concat([mkNew()]);
+  } else {
+    const index = randomInt(0, array.length - 1);
+    if (Math.random() < 0.3) {
+      return deleteIndex(array, index);
+    } else {
+      array[index] = mutate(array[index]);
+      return array;
     }
   }
 }
