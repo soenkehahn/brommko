@@ -51,14 +51,14 @@ export function mutateScene(scene: Scene): Scene {
   return clone;
 }
 
-export async function mkScene(complexity: number) {
+export async function mkScene(complexity: number): Promise<Scene> {
   const scene = await search({
     mutate: mutateScene,
     fitness: sceneFitness(complexity),
     start: new Scene()
   });
   console.log(scene, findPath(6, scene));
-  const shrunk = runShrink(
+  const shrunk = await runShrink(
     scene,
     shrinkScene,
     s => sceneFitness(complexity)(s) <= 0

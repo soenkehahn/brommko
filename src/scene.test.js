@@ -63,12 +63,12 @@ describe("player", () => {
   });
 
   describe("shrinkScene", () => {
-    it("terminates", () => {
+    it("terminates", async () => {
       const scene = new Scene();
       scene.goal = { x: 0, y: 2 };
       const predicate = scene =>
         _.isEqual(findPath(2, scene), ["ArrowUp", "ArrowUp"]);
-      runShrink(scene, shrinkScene, predicate);
+      await runShrink(scene, shrinkScene, predicate);
     });
 
     it("fills cells with walls", () => {});

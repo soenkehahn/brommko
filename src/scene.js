@@ -3,7 +3,7 @@
 import _ from "lodash";
 import { deleteIndex } from "./utils";
 
-const sceneSize = 4;
+const sceneSize = 3;
 
 export type Position = { x: number, y: number };
 
