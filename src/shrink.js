@@ -1,8 +1,10 @@
 // @flow
 
+import { type Stream } from "./utils";
+
 export async function runShrink<A>(
   start: A,
-  shrink: A => Array<A>,
+  shrink: A => Stream<A>,
   predicate: A => boolean
 ): Promise<A> {
   if (!predicate(start)) {
@@ -13,12 +15,13 @@ export async function runShrink<A>(
 
 async function runShrink_<A>(
   start: A,
-  shrink: A => Array<A>,
+  shrink: A => Stream<A>,
   predicate: A => boolean
 ): Promise<A> {
   console.log(start);
   const children = shrink(start);
-  for (const child of children) {
+  let child;
+  while ((child = children.next())) {
     await null;
     if (predicate(child)) {
       return runShrink_(child, shrink, predicate);

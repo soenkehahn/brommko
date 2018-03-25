@@ -1,7 +1,7 @@
 // @flow
 
 import _ from "lodash";
-import { deleteIndex } from "./utils";
+import { type Stream, deleteIndex } from "./utils";
 
 const sceneSize = 3;
 
@@ -33,11 +33,8 @@ function mutatePosition({ x, y }): Position {
 
 export class Scene {
   player: Position;
-
   walls: Array<Position>;
-
   goal: Position;
-
   success: boolean;
 
   constructor() {
@@ -45,6 +42,19 @@ export class Scene {
     this.walls = [];
     this.goal = { x: 0, y: 1 };
     this.success = false;
+  }
+
+  clone(): Scene {
+    const result = new Scene();
+    result.player.x = this.player.x;
+    result.player.y = this.player.y;
+    for (const wall of this.walls) {
+      result.walls.push(wall);
+    }
+    result.goal.x = this.goal.x;
+    result.goal.y = this.goal.y;
+    result.success = this.success;
+    return result;
   }
 
   step(keycode: string) {
@@ -97,17 +107,26 @@ function mutateArray<A>(
   }
 }
 
-export function shrinkScene(scene: Scene): Array<Scene> {
-  const results = [];
-  for (let x = -sceneSize; x <= sceneSize; x++) {
-    for (let y = -sceneSize; y <= sceneSize; y++) {
-      const position = { x, y };
-      if (!_.some(scene.walls, position)) {
-        const clone = _.cloneDeep(scene);
-        clone.walls.push(position);
-        results.push(clone);
+export function shrinkScene(scene: Scene): Stream<Scene> {
+  let x = -sceneSize;
+  let y = -sceneSize;
+  function next() {
+    if (x > sceneSize) {
+      x = -sceneSize;
+      y++;
+      if (y > sceneSize) {
+        return null;
       }
     }
+    const position = { x, y };
+    x++;
+    if (!_.some(scene.walls, position)) {
+      const clone = scene.clone();
+      clone.walls.push(position);
+      return clone;
+    } else {
+      return next();
+    }
   }
-  return results;
+  return { next };
 }

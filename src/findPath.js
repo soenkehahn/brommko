@@ -1,11 +1,12 @@
 // @flow
 
-import { Scene } from "./scene.js";
+import { Scene } from "./scene";
 import _ from "lodash";
+import { type Stream } from "./utils";
 
 export function findPath(maxLength: number, scene: Scene): ?Array<string> {
   return findFirst(mkAllPaths(maxLength), path => {
-    const clone = _.cloneDeep(scene);
+    const clone = scene.clone();
     simulate(clone, path);
     return clone.success;
   });
@@ -50,10 +51,6 @@ function simulate(scene: Scene, path: Array<string>): void {
     scene.step(control);
   }
 }
-
-type Stream<A> = {
-  next: () => ?A
-};
 
 function findFirst<A>(stream: Stream<A>, predicate: A => boolean): ?A {
   let element = stream.next();

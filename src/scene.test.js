@@ -71,6 +71,13 @@ describe("player", () => {
       await runShrink(scene, shrinkScene, predicate);
     });
 
-    it("fills cells with walls", () => {});
+    it("fills cells with walls");
+
+    it("enumrates scenes with single added walls", () => {
+      const stream = shrinkScene(new Scene());
+      expect((stream.next(): any).walls).toEqual([{ x: -3, y: -3 }]);
+      expect((stream.next(): any).walls).toEqual([{ x: -2, y: -3 }]);
+      expect((stream.next(): any).walls).toEqual([{ x: -1, y: -3 }]);
+    });
   });
 });

@@ -46,7 +46,7 @@ export const sceneFitness: number => Scene => number = target => scene => {
 };
 
 export function mutateScene(scene: Scene): Scene {
-  const clone = _.cloneDeep(scene);
+  const clone = scene.clone();
   clone.mutate();
   return clone;
 }
