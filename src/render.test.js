@@ -2,9 +2,9 @@
 
 import { mount } from "enzyme";
 import React from "react";
-import { Render } from "./Render.js";
+import { Render } from "./render.js";
 import { Scene } from "./scene.js";
-import { simulateKeyEvent } from "./test-utils";
+import { simulateKeyEvent } from "./testUtils";
 
 describe("renderScene", () => {
   it("renders the player", () => {

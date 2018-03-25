@@ -2,7 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { mkApp } from "./App";
+import { mkApp } from "./app";
 import { Scene } from "./scene";
 
 const scene = new Scene();

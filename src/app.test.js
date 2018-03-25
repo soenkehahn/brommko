@@ -2,9 +2,9 @@
 
 import React from "react";
 import { mount } from "enzyme";
-import { mkApp } from "./App";
-import { simulateKeyEvent } from "./test-utils";
-import { Render } from "./Render";
+import { mkApp } from "./app";
+import { simulateKeyEvent } from "./testUtils";
+import { Render } from "./render";
 import { Scene } from "./scene";
 
 describe("App", () => {

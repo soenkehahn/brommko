@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from "react";
-import { Render } from "./Render";
+import { Render } from "./render";
 import { Scene } from "./scene";
 import { handleKeyboard } from "./keyboard";
 
