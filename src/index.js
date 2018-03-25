@@ -6,11 +6,15 @@ import { mkApp } from "./app";
 import { Scene } from "./scene";
 import { mkScene } from "./search";
 
-const scene = mkScene();
-const App = mkApp(scene);
+async function main() {
+  const scene = await mkScene();
+  const App = mkApp(scene);
 
-const domElement = document.getElementById("root");
-if (!domElement) {
-  throw new Error("please load a html page with an elemend with id 'root'");
+  const domElement = document.getElementById("root");
+  if (!domElement) {
+    throw new Error("please load a html page with an elemend with id 'root'");
+  }
+  ReactDOM.render(<App />, domElement);
 }
-ReactDOM.render(<App />, domElement);
+
+main();

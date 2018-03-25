@@ -6,7 +6,7 @@ import { findPath } from "./findPath";
 import { failNull } from "./testUtils";
 
 describe("search", () => {
-  it("finds solutions to a simple problem", () => {
+  it("finds solutions to a simple problem", async () => {
     function mutate(n) {
       if (Math.random() < 0.5) {
         return n + 1;
@@ -19,14 +19,14 @@ describe("search", () => {
       return Math.abs(42 - n);
     }
 
-    const result = search({ mutate: mutate, fitness: fitness, start: 0 });
+    const result = await search({ mutate: mutate, fitness: fitness, start: 0 });
     expect(result).toEqual(42);
   });
 
   it("aborts if finding a better fitness takes too long");
 
-  it("finds a simple scene", () => {
-    const result = search({
+  it("finds a simple scene", async () => {
+    const result = await search({
       mutate: mutateScene,
       fitness: sceneFitness(2),
       start: new Scene()

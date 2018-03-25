@@ -4,15 +4,16 @@ import { Scene } from "./scene";
 import { findPath } from "./findPath";
 import _ from "lodash";
 
-export function search<A>(options: {|
+export async function search<A>(options: {|
   mutate: A => A,
   fitness: A => number,
   start: A
-|}): A {
+|}): Promise<A> {
   const { mutate, fitness, start } = options;
   let best = start;
   let currentFitness = fitness(best);
   while (currentFitness > 0) {
+    await null;
     const mutated = mutate(best);
     const mutatedFitness = fitness(mutated);
     if (mutatedFitness <= currentFitness) {
@@ -48,14 +49,11 @@ export function mutateScene(scene: Scene): Scene {
   return clone;
 }
 
-export function mkScene() {
-  return search({
+export async function mkScene() {
+  const scene = await search({
     mutate: mutateScene,
     fitness: sceneFitness(3),
     start: new Scene()
   });
-}
-
-if (!module.parent) {
-  console.log(mkScene());
+  return scene;
 }
