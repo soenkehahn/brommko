@@ -23,7 +23,7 @@ export class Render extends Component<{ scene: Scene }> {
     return this.svgHeight / 2 + y;
   }
 
-  renderRect(position: Position, color: string): Element<*> {
+  renderRect(position: Position, color: string, key: string): Element<*> {
     return (
       <rect
         x={this.transformX(position.x * this.size)}
@@ -31,6 +31,7 @@ export class Render extends Component<{ scene: Scene }> {
         width={this.size}
         height={this.size}
         fill={color}
+        key={key}
       />
     );
   }
@@ -38,9 +39,11 @@ export class Render extends Component<{ scene: Scene }> {
   render() {
     return (
       <svg width={this.svgWidth} height={this.svgHeight}>
-        {this.props.scene.walls.map(wall => this.renderRect(wall, "grey"))}
-        {this.renderRect(this.props.scene.goal, "green")}
-        {this.renderRect(this.props.scene.player, "blue")}
+        {this.props.scene.walls.map((wall, i) =>
+          this.renderRect(wall, "grey", i.toString())
+        )}
+        {this.renderRect(this.props.scene.goal, "green", "goal")}
+        {this.renderRect(this.props.scene.player, "blue", "player")}
       </svg>
     );
   }
