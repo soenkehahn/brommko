@@ -45,8 +45,8 @@ describe("pathComplexity", () => {
   it("returns the path complexity", () => {
     expect(pathComplexity(["ArrowUp"])).toEqual(1);
     expect(pathComplexity(["ArrowUp", "ArrowUp"])).toEqual(2);
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.5);
-    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.5);
+    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.2);
+    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.2);
   });
 
   it("judges longer paths as more complex", () => {

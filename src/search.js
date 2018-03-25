@@ -17,6 +17,7 @@ export async function search<A>(options: {|
     const mutated = mutate(best);
     const mutatedFitness = fitness(mutated);
     if (mutatedFitness <= currentFitness) {
+      console.log(mutatedFitness);
       best = mutated;
       currentFitness = mutatedFitness;
     }
@@ -28,7 +29,7 @@ export function pathComplexity(path: Array<string>): number {
   let directionChanges = 0;
   for (let i = 0; i <= path.length - 2; i++) {
     if (path[i] !== path[i + 1]) {
-      directionChanges += 0.5;
+      directionChanges += 0.2;
     }
   }
   return path.length + directionChanges;
@@ -40,7 +41,7 @@ export const sceneFitness: number => Scene => number = target => scene => {
     return Infinity;
   }
   const complexity = pathComplexity(path);
-  return Math.abs(complexity - target);
+  return Math.abs(complexity - target) - 0.01;
 };
 
 export function mutateScene(scene: Scene): Scene {
@@ -52,8 +53,9 @@ export function mutateScene(scene: Scene): Scene {
 export async function mkScene() {
   const scene = await search({
     mutate: mutateScene,
-    fitness: sceneFitness(3),
+    fitness: sceneFitness(4.4),
     start: new Scene()
   });
+  console.log(scene, findPath(6, scene));
   return scene;
 }
