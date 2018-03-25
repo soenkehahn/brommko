@@ -3,6 +3,8 @@
 import _ from "lodash";
 import { deleteIndex } from "./utils";
 
+const sceneSize = 4;
+
 export type Position = { x: number, y: number };
 
 function randomInt(lower, upper) {
@@ -10,16 +12,22 @@ function randomInt(lower, upper) {
 }
 
 function randomPosition(): Position {
-  return { x: randomInt(-5, 5), y: randomInt(-5, 5) };
+  return {
+    x: randomInt(-sceneSize, sceneSize),
+    y: randomInt(-sceneSize, sceneSize)
+  };
 }
 
 function mutatePosition({ x, y }): Position {
   if (Math.random() < 1 / 3) {
-    return { x: randomInt(-5, 5), y };
+    return { x: randomInt(-sceneSize, sceneSize), y };
   } else if (Math.random() < 2 / 3) {
-    return { x, y: randomInt(-5, 5) };
+    return { x, y: randomInt(-sceneSize, sceneSize) };
   } else {
-    return { x: randomInt(-5, 5), y: randomInt(-5, 5) };
+    return {
+      x: randomInt(-sceneSize, sceneSize),
+      y: randomInt(-sceneSize, sceneSize)
+    };
   }
 }
 
@@ -91,8 +99,8 @@ function mutateArray<A>(
 
 export function shrinkScene(scene: Scene): Array<Scene> {
   const results = [];
-  for (let x = -5; x <= 5; x++) {
-    for (let y = -5; y <= 5; y++) {
+  for (let x = -sceneSize; x <= sceneSize; x++) {
+    for (let y = -sceneSize; y <= sceneSize; y++) {
       const position = { x, y };
       if (!_.some(scene.walls, position)) {
         const clone = _.cloneDeep(scene);
