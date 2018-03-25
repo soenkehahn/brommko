@@ -18,9 +18,9 @@ export async function search<A>(options: {|
     const mutated = mutate(best);
     const mutatedFitness = fitness(mutated);
     if (mutatedFitness <= currentFitness) {
-      console.log(mutatedFitness);
       best = mutated;
       currentFitness = mutatedFitness;
+      console.error(`current fitness: ${currentFitness}`);
     }
   }
   return best;
@@ -57,12 +57,10 @@ export async function mkScene(complexity: number): Promise<Scene> {
     fitness: sceneFitness(complexity),
     start: new Scene()
   });
-  console.log(scene, findPath(6, scene));
   const shrunk = await runShrink(
     scene,
     shrinkScene,
     s => sceneFitness(complexity)(s) <= 0
   );
-  console.log(shrunk);
   return shrunk;
 }

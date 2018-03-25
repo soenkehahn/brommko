@@ -18,7 +18,6 @@ async function runShrink_<A>(
   shrink: A => Stream<A>,
   predicate: A => boolean
 ): Promise<A> {
-  console.log(start);
   const children = shrink(start);
   let child;
   while ((child = children.next())) {
