@@ -1,8 +1,9 @@
 // @flow
 
-import { Scene } from "./scene";
+import { Scene, shrinkScene } from "./scene";
 import { findPath } from "./findPath";
 import _ from "lodash";
+import { runShrink } from "./shrink";
 
 export async function search<A>(options: {|
   mutate: A => A,
@@ -50,12 +51,18 @@ export function mutateScene(scene: Scene): Scene {
   return clone;
 }
 
-export async function mkScene() {
+export async function mkScene(complexity: number) {
   const scene = await search({
     mutate: mutateScene,
-    fitness: sceneFitness(4.4),
+    fitness: sceneFitness(complexity),
     start: new Scene()
   });
   console.log(scene, findPath(6, scene));
-  return scene;
+  const shrunk = runShrink(
+    scene,
+    shrinkScene,
+    s => sceneFitness(complexity)(s) <= 0
+  );
+  console.log(shrunk);
+  return shrunk;
 }

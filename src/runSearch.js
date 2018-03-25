@@ -2,9 +2,12 @@
 
 // @flow
 
-import { mkScene } from "./search";
+import { mkScene, sceneFitness } from "./search";
+import { shrinkScene } from "./scene";
+import { runShrink } from "./shrink";
 
 async function main() {
-  console.log(await mkScene());
+  const scene = await mkScene(4.4);
+  console.log(JSON.stringify(scene, null, 2));
 }
 main();

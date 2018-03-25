@@ -88,3 +88,18 @@ function mutateArray<A>(
     }
   }
 }
+
+export function shrinkScene(scene: Scene): Array<Scene> {
+  const results = [];
+  for (let x = -5; x <= 5; x++) {
+    for (let y = -5; y <= 5; y++) {
+      const position = { x, y };
+      if (!_.some(scene.walls, position)) {
+        const clone = _.cloneDeep(scene);
+        clone.walls.push(position);
+        results.push(clone);
+      }
+    }
+  }
+  return results;
+}

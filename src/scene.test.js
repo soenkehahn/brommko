@@ -1,6 +1,9 @@
 // @flow
 
-import { Scene } from "./scene.js";
+import { Scene, shrinkScene } from "./scene.js";
+import { findPath } from "./findPath";
+import { runShrink } from "./shrink";
+import _ from "lodash";
 
 describe("player", () => {
   describe("simple movement", () => {
@@ -57,5 +60,17 @@ describe("player", () => {
       scene.step("ArrowUp");
       expect(scene.player).toEqual({ x: 0, y: 1 });
     });
+  });
+
+  describe("shrinkScene", () => {
+    it("terminates", () => {
+      const scene = new Scene();
+      scene.goal = { x: 0, y: 2 };
+      const predicate = scene =>
+        _.isEqual(findPath(2, scene), ["ArrowUp", "ArrowUp"]);
+      runShrink(scene, shrinkScene, predicate);
+    });
+
+    it("fills cells with walls", () => {});
   });
 });
