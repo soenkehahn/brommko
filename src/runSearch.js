@@ -6,7 +6,13 @@ import { mkScene, sceneFitness } from "./search";
 import { shrinkScene } from "./scene";
 
 async function main() {
-  const scene = await mkScene(4.4);
-  console.log(JSON.stringify(scene, null, 2));
+  try {
+    const args = process.argv.slice(2);
+    const scene = await mkScene(parseFloat(args[0]));
+    console.log(JSON.stringify(scene, null, 2));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 }
 main();
