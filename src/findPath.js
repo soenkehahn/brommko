@@ -1,7 +1,6 @@
 // @flow
 
 import { Scene } from "./scene";
-import _ from "lodash";
 import { type Stream } from "./utils";
 
 export function findPath(maxLength: number, scene: Scene): ?Array<string> {
@@ -38,7 +37,7 @@ export function mkAllPaths(maxLength: number): Stream<Array<string>> {
     next: () => {
       if (path.length <= maxLength) {
         step(0);
-        return _.cloneDeep(path).reverse();
+        return Array.from((path: Array<string>)).reverse();
       } else {
         return null;
       }
