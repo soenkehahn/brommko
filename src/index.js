@@ -20,9 +20,14 @@ async function main() {
   const stream = searchStream(sceneSearchOptions(6.3));
   const StreamRenderer = mkStreamRenderer(
     stream,
-    props => <Render scene={props.element} />,
-    scene => {
-      const PlayScene = mkPlayScene(fillInWalls(scene));
+    props => (
+      <div>
+        <Render scene={props.element.element} />
+        fitness: {props.element.fitness}
+      </div>
+    ),
+    best => {
+      const PlayScene = mkPlayScene(fillInWalls(best.element));
       return () => <PlayScene />;
     }
   );

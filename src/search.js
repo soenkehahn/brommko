@@ -10,14 +10,14 @@ export async function search<A>(options: {|
   fitness: A => number,
   start: A
 |}): Promise<A> {
-  return await last(searchStream(options));
+  return (await last(searchStream(options))).element;
 }
 
 export function searchStream<A>(options: {|
   mutate: A => A,
   fitness: A => number,
   start: A
-|}): Stream<A> {
+|}): Stream<{ element: A, fitness: number }> {
   const { mutate, fitness, start } = options;
   let best = start;
   let currentFitness = fitness(best);
@@ -30,7 +30,7 @@ export function searchStream<A>(options: {|
           best = mutated;
           currentFitness = mutatedFitness;
           console.error(`current fitness: ${currentFitness}`);
-          return best;
+          return { element: best, fitness: currentFitness };
         }
       }
       return null;
