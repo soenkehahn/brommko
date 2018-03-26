@@ -21,6 +21,10 @@ export function toStream<A>(array: Array<A>): Stream<A> {
   };
 }
 
+export function randomInt(lower: number, upper: number): number {
+  return Math.floor(Math.random() * Math.floor(1 + upper - lower)) + lower;
+}
+
 export function deleteIndex<A>(array: Array<A>, index: number): Array<A> {
   const result = [];
   let i = 0;
@@ -31,4 +35,23 @@ export function deleteIndex<A>(array: Array<A>, index: number): Array<A> {
     i++;
   }
   return result;
+}
+
+export function mutateArray<A>(
+  mkNew: () => A,
+  mutate: A => A,
+  array: Array<A>
+): Array<A> {
+  const random = Math.random();
+  if (random < 1 / (array.length + 1)) {
+    return array.concat([mkNew()]);
+  } else {
+    const index = randomInt(0, array.length - 1);
+    if (Math.random() < 0.3) {
+      return deleteIndex(array, index);
+    } else {
+      array[index] = mutate(array[index]);
+      return array;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 // @flow
 
-import { search, mutateScene, sceneFitness, pathComplexity } from "./search";
-import { Scene } from "./scene";
+import { search } from "./search";
+import { Scene, mutateScene, sceneFitness } from "./scene";
 import { findPath } from "./findPath";
 import { failNull } from "./testUtils";
 
@@ -34,30 +34,5 @@ describe("search", () => {
     const solution = failNull(findPath(result));
     expect(solution.length).toEqual(2);
     expect(solution[0]).toEqual(solution[1]);
-  });
-});
-
-describe("pathComplexity", () => {
-  it("returns 0 for the empty path", () => {
-    expect(pathComplexity([])).toEqual(0);
-  });
-
-  it("returns the path complexity", () => {
-    expect(pathComplexity(["ArrowUp"])).toEqual(1);
-    expect(pathComplexity(["ArrowUp", "ArrowUp"])).toEqual(2);
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.1);
-    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.1);
-  });
-
-  it("judges longer paths as more complex", () => {
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toBeGreaterThan(
-      pathComplexity(["ArrowUp"])
-    );
-  });
-
-  it("judges changes in direction as more complex", () => {
-    expect(pathComplexity(["ArrowUp", "ArrowLeft"])).toBeGreaterThan(
-      pathComplexity(["ArrowUp", "ArrowUp"])
-    );
   });
 });

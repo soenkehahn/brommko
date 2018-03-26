@@ -2,7 +2,7 @@
 
 // @flow
 
-import { mkScene, sceneFitness } from "./search";
+import { mkScene, sceneFitness } from "./scene";
 
 async function main() {
   try {

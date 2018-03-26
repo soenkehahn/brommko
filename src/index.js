@@ -3,8 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { mkApp } from "./app";
-import { Scene } from "./scene";
-import { mkScene } from "./search";
+import { Scene, mkScene } from "./scene";
 
 async function main() {
   const scene = await mkScene(4.2);

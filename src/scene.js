@@ -1,16 +1,19 @@
 // @flow
 
 import _ from "lodash";
-import { type Stream, empty, deleteIndex } from "./utils";
+import {
+  type Stream,
+  empty,
+  randomInt,
+  deleteIndex,
+  mutateArray
+} from "./utils";
 import { findPath, simulate } from "./findPath";
+import { search } from "./search";
 
 const sceneSize = 5;
 
 export type Position = { x: number, y: number };
-
-function randomInt(lower, upper) {
-  return Math.floor(Math.random() * Math.floor(1 + upper - lower)) + lower;
-}
 
 function randomPosition(): Position {
   return {
@@ -30,6 +33,16 @@ function mutatePosition({ x, y }): Position {
       y: randomInt(-sceneSize, sceneSize)
     };
   }
+}
+
+export function pathComplexity(path: Array<string>): number {
+  let directionChanges = 0;
+  for (let i = 0; i <= path.length - 2; i++) {
+    if (path[i] !== path[i + 1]) {
+      directionChanges += 0.1;
+    }
+  }
+  return path.length + directionChanges;
 }
 
 export class Scene {
@@ -79,33 +92,25 @@ export class Scene {
       }
     }
   }
-
-  mutate() {
-    if (Math.random() < 0.5) {
-      this.goal = mutatePosition(this.goal);
-    } else {
-      this.walls = mutateArray(randomPosition, mutatePosition, this.walls);
-    }
-  }
 }
 
-function mutateArray<A>(
-  mkNew: () => A,
-  mutate: A => A,
-  array: Array<A>
-): Array<A> {
-  const random = Math.random();
-  if (random < 1 / (array.length + 1)) {
-    return array.concat([mkNew()]);
-  } else {
-    const index = randomInt(0, array.length - 1);
-    if (Math.random() < 0.3) {
-      return deleteIndex(array, index);
-    } else {
-      array[index] = mutate(array[index]);
-      return array;
-    }
+export const sceneFitness: number => Scene => number = target => scene => {
+  const path = findPath(scene);
+  if (!path) {
+    return Infinity;
   }
+  const complexity = pathComplexity(path);
+  return Math.abs(complexity - target) - 0.01;
+};
+
+export function mutateScene(scene: Scene): Scene {
+  const result = scene.clone();
+  if (Math.random() < 0.5) {
+    result.goal = mutatePosition(result.goal);
+  } else {
+    result.walls = mutateArray(randomPosition, mutatePosition, result.walls);
+  }
+  return result;
 }
 
 export function fillInWalls(scene: Scene): Scene {
@@ -131,4 +136,13 @@ export function fillInWalls(scene: Scene): Scene {
     }
   }
   return result;
+}
+
+export async function mkScene(complexity: number): Promise<Scene> {
+  const scene = await search({
+    mutate: mutateScene,
+    fitness: sceneFitness(complexity),
+    start: new Scene()
+  });
+  return fillInWalls(scene);
 }
