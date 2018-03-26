@@ -4,7 +4,7 @@ import _ from "lodash";
 import { type Stream, empty, deleteIndex } from "./utils";
 import { findPath } from "./findPath";
 
-const sceneSize = 3;
+const sceneSize = 5;
 
 export type Position = { x: number, y: number };
 
@@ -110,14 +110,15 @@ function mutateArray<A>(
 
 export async function fillInWalls(scene: Scene): Promise<Scene> {
   const result = scene.clone();
-  const wantedPath = findPath(5, result);
+  const wantedPath = findPath(result);
   for (let x = -sceneSize; x <= sceneSize; x++) {
     for (let y = -sceneSize; y <= sceneSize; y++) {
       await null;
       const position = { x, y };
+      console.error(`filling: ${JSON.stringify(position)}`);
       const temporary = result.clone();
       temporary.walls.push(position);
-      if (_.isEqual(findPath(5, temporary), wantedPath)) {
+      if (_.isEqual(findPath(temporary), wantedPath)) {
         result.walls.push(position);
       }
     }

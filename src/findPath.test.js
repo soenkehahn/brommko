@@ -6,13 +6,13 @@ import { findPath, mkAllPaths } from "./findPath";
 describe("findPath", () => {
   it("finds a solution to a simple scene", () => {
     const scene = new Scene();
-    expect(findPath(5, scene)).toEqual(["ArrowUp"]);
+    expect(findPath(scene)).toEqual(["ArrowUp"]);
   });
 
   it("finds a longer solution", () => {
     const scene = new Scene();
     scene.goal = { x: 0, y: 3 };
-    expect(findPath(5, scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
+    expect(findPath(scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
   });
 
   it("aborts after trying many solutions", () => {
@@ -28,7 +28,7 @@ describe("findPath", () => {
       { x: 0, y: 1 },
       { x: 1, y: 1 }
     ];
-    expect(findPath(5, scene)).toEqual(null);
+    expect(findPath(scene)).toEqual(null);
   });
 });
 

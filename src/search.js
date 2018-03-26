@@ -29,14 +29,14 @@ export function pathComplexity(path: Array<string>): number {
   let directionChanges = 0;
   for (let i = 0; i <= path.length - 2; i++) {
     if (path[i] !== path[i + 1]) {
-      directionChanges += 0.2;
+      directionChanges += 0.1;
     }
   }
   return path.length + directionChanges;
 }
 
 export const sceneFitness: number => Scene => number = target => scene => {
-  const path = findPath(5, scene);
+  const path = findPath(scene);
   if (!path) {
     return Infinity;
   }

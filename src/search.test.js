@@ -31,7 +31,7 @@ describe("search", () => {
       fitness: sceneFitness(2),
       start: new Scene()
     });
-    const solution = failNull(findPath(5, result));
+    const solution = failNull(findPath(result));
     expect(solution.length).toEqual(2);
     expect(solution[0]).toEqual(solution[1]);
   });
@@ -45,8 +45,8 @@ describe("pathComplexity", () => {
   it("returns the path complexity", () => {
     expect(pathComplexity(["ArrowUp"])).toEqual(1);
     expect(pathComplexity(["ArrowUp", "ArrowUp"])).toEqual(2);
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.2);
-    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.2);
+    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.1);
+    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.1);
   });
 
   it("judges longer paths as more complex", () => {

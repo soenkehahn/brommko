@@ -7,7 +7,7 @@ import { Scene } from "./scene";
 import { mkScene } from "./search";
 
 async function main() {
-  const scene = await mkScene(4.4);
+  const scene = await mkScene(6.3);
   const App = mkApp(scene);
 
   const domElement = document.getElementById("root");

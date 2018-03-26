@@ -3,7 +3,7 @@
 import { Scene } from "./scene";
 import { type Stream } from "./utils";
 
-export function findPath(maxLength: number, scene: Scene): ?Array<string> {
+export function findPath(scene: Scene, maxLength: number = 6): ?Array<string> {
   return findFirst(mkAllPaths(maxLength), path => {
     const clone = scene.clone();
     simulate(clone, path);
