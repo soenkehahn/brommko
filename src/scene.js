@@ -1,7 +1,8 @@
 // @flow
 
 import _ from "lodash";
-import { type Stream, deleteIndex } from "./utils";
+import { type Stream, empty, deleteIndex } from "./utils";
+import { findPath } from "./findPath";
 
 const sceneSize = 3;
 
@@ -107,26 +108,19 @@ function mutateArray<A>(
   }
 }
 
-export function shrinkScene(scene: Scene): Stream<Scene> {
-  let x = -sceneSize;
-  let y = -sceneSize;
-  function next() {
-    if (x > sceneSize) {
-      x = -sceneSize;
-      y++;
-      if (y > sceneSize) {
-        return null;
+export async function fillInWalls(scene: Scene): Promise<Scene> {
+  const result = scene.clone();
+  const wantedPath = findPath(5, result);
+  for (let x = -sceneSize; x <= sceneSize; x++) {
+    for (let y = -sceneSize; y <= sceneSize; y++) {
+      await null;
+      const position = { x, y };
+      const temporary = result.clone();
+      temporary.walls.push(position);
+      if (_.isEqual(findPath(5, temporary), wantedPath)) {
+        result.walls.push(position);
       }
     }
-    const position = { x, y };
-    x++;
-    if (!_.some(scene.walls, position)) {
-      const clone = scene.clone();
-      clone.walls.push(position);
-      return clone;
-    } else {
-      return next();
-    }
   }
-  return { next };
+  return result;
 }

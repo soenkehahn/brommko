@@ -1,9 +1,8 @@
 // @flow
 
-import { Scene, shrinkScene } from "./scene";
+import { Scene, fillInWalls } from "./scene";
 import { findPath } from "./findPath";
 import _ from "lodash";
-import { runShrink } from "./shrink";
 
 export async function search<A>(options: {|
   mutate: A => A,
@@ -57,10 +56,5 @@ export async function mkScene(complexity: number): Promise<Scene> {
     fitness: sceneFitness(complexity),
     start: new Scene()
   });
-  const shrunk = await runShrink(
-    scene,
-    shrinkScene,
-    s => sceneFitness(complexity)(s) <= 0
-  );
-  return shrunk;
+  return await fillInWalls(scene);
 }

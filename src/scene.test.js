@@ -1,8 +1,7 @@
 // @flow
 
-import { Scene, shrinkScene } from "./scene.js";
+import { Scene, fillInWalls } from "./scene.js";
 import { findPath } from "./findPath";
-import { runShrink } from "./shrink";
 import _ from "lodash";
 
 describe("player", () => {
@@ -61,23 +60,12 @@ describe("player", () => {
       expect(scene.player).toEqual({ x: 0, y: 1 });
     });
   });
+});
 
-  describe("shrinkScene", () => {
-    it("terminates", async () => {
-      const scene = new Scene();
-      scene.goal = { x: 0, y: 2 };
-      const predicate = scene =>
-        _.isEqual(findPath(2, scene), ["ArrowUp", "ArrowUp"]);
-      await runShrink(scene, shrinkScene, predicate);
-    });
-
-    it("fills cells with walls");
-
-    it("enumrates scenes with single added walls", () => {
-      const stream = shrinkScene(new Scene());
-      expect((stream.next(): any).walls).toEqual([{ x: -3, y: -3 }]);
-      expect((stream.next(): any).walls).toEqual([{ x: -2, y: -3 }]);
-      expect((stream.next(): any).walls).toEqual([{ x: -1, y: -3 }]);
-    });
+describe("fillInWalls", () => {
+  it("fills in all possible walls", async () => {
+    const scene = await fillInWalls(new Scene());
+    expect(scene.walls).toContainEqual({ x: -3, y: -3 });
+    expect(scene.walls).toContainEqual({ x: 3, y: 3 });
   });
 });

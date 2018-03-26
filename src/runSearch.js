@@ -3,7 +3,6 @@
 // @flow
 
 import { mkScene, sceneFitness } from "./search";
-import { shrinkScene } from "./scene";
 
 async function main() {
   try {
