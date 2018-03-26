@@ -56,5 +56,5 @@ export async function mkScene(complexity: number): Promise<Scene> {
     fitness: sceneFitness(complexity),
     start: new Scene()
   });
-  return await fillInWalls(scene);
+  return fillInWalls(scene);
 }

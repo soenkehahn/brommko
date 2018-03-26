@@ -45,7 +45,7 @@ export function mkAllPaths(maxLength: number): Stream<Array<string>> {
   };
 }
 
-function simulate(scene: Scene, path: Array<string>): void {
+export function simulate(scene: Scene, path: Array<string>): void {
   for (const control of path) {
     scene.step(control);
   }

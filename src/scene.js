@@ -2,7 +2,7 @@
 
 import _ from "lodash";
 import { type Stream, empty, deleteIndex } from "./utils";
-import { findPath } from "./findPath";
+import { findPath, simulate } from "./findPath";
 
 const sceneSize = 5;
 
@@ -108,17 +108,19 @@ function mutateArray<A>(
   }
 }
 
-export async function fillInWalls(scene: Scene): Promise<Scene> {
+export function fillInWalls(scene: Scene): Scene {
   const result = scene.clone();
   const wantedPath = findPath(result);
+  if (wantedPath == null) {
+    throw "foo";
+  }
   for (let x = -sceneSize; x <= sceneSize; x++) {
     for (let y = -sceneSize; y <= sceneSize; y++) {
-      await null;
       const position = { x, y };
-      console.error(`filling: ${JSON.stringify(position)}`);
       const temporary = result.clone();
       temporary.walls.push(position);
-      if (_.isEqual(findPath(temporary), wantedPath)) {
+      simulate(temporary, wantedPath);
+      if (temporary.success) {
         result.walls.push(position);
       }
     }

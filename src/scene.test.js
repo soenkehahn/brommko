@@ -63,8 +63,8 @@ describe("player", () => {
 });
 
 describe("fillInWalls", () => {
-  it("fills in all possible walls", async () => {
-    const scene = await fillInWalls(new Scene());
+  it("fills in all possible walls", () => {
+    const scene = fillInWalls(new Scene());
     expect(scene.walls).toContainEqual({ x: -3, y: -3 });
     expect(scene.walls).toContainEqual({ x: 3, y: 3 });
   });
