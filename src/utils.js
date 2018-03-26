@@ -21,6 +21,20 @@ export function toStream<A>(array: Array<A>): Stream<A> {
   };
 }
 
+export async function last<A>(stream: Stream<A>): Promise<A> {
+  let element = stream.next();
+  if (element == null) {
+    throw "last: empty stream";
+  }
+  let next = stream.next();
+  while (next != null) {
+    await null;
+    element = next;
+    next = stream.next();
+  }
+  return element;
+}
+
 export function randomInt(lower: number, upper: number): number {
   return Math.floor(Math.random() * Math.floor(1 + upper - lower)) + lower;
 }

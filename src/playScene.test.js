@@ -2,29 +2,29 @@
 
 import React from "react";
 import { mount } from "enzyme";
-import { mkApp } from "./app";
+import { mkPlayScene } from "./playScene";
 import { simulateKeyEvent } from "./testUtils";
 import { Render } from "./render";
 import { Scene } from "./scene";
 
-describe("App", () => {
+describe("PlayScene", () => {
   it("renders without crashing", () => {
-    const App = mkApp(new Scene());
-    const wrapper = mount(<App />);
+    const PlayScene = mkPlayScene(new Scene());
+    const wrapper = mount(<PlayScene />);
   });
 
   it("relays keydowns to the scene", () => {
-    const App = mkApp(new Scene());
-    const wrapper = mount(<App />);
+    const PlayScene = mkPlayScene(new Scene());
+    const wrapper = mount(<PlayScene />);
     const initialY = wrapper.find(Render).props().scene.player.y;
     simulateKeyEvent("keydown", "ArrowUp");
     const lastY = wrapper.find(Render).props().scene.player.y;
     expect(lastY).toBeGreaterThan(initialY);
   });
 
-  it("updates the App state", () => {
-    const App = mkApp(new Scene());
-    const wrapper = mount(<App />);
+  it("updates the PlayScene state", () => {
+    const PlayScene = mkPlayScene(new Scene());
+    const wrapper = mount(<PlayScene />);
     const state = wrapper.state();
     simulateKeyEvent("keydown", "ArrowUp");
     expect(wrapper.state()).not.toBe(state);

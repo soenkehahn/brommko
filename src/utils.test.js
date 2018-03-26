@@ -1,6 +1,12 @@
 // @flow
 
-import { empty, toStream, deleteIndex } from "./utils";
+import { empty, toStream, last, deleteIndex } from "./utils";
+
+describe("empty", () => {
+  it("returns an empty stream", () => {
+    expect(empty().next()).toEqual(null);
+  });
+});
 
 describe("toStream", () => {
   it("converts an array into a stream", () => {
@@ -12,9 +18,20 @@ describe("toStream", () => {
   });
 });
 
-describe("empty", () => {
-  it("returns an empty stream", () => {
-    expect(empty().next()).toEqual(null);
+describe("last", () => {
+  it("returns the last element of the stream", async () => {
+    expect(await last(toStream([1, 2, 3]))).toEqual(3);
+  });
+
+  it("gracefully deals with empty streams", async () => {
+    let thrown = false;
+    try {
+      await last(empty());
+    } catch (err) {
+      thrown = true;
+      expect(err).toMatch("last: empty stream");
+    }
+    expect(thrown).toBe(true);
   });
 });
 

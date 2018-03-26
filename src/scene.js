@@ -1,13 +1,7 @@
 // @flow
 
 import _ from "lodash";
-import {
-  type Stream,
-  empty,
-  randomInt,
-  deleteIndex,
-  mutateArray
-} from "./utils";
+import { randomInt, deleteIndex, mutateArray } from "./utils";
 import { findPath, simulate } from "./findPath";
 import { search } from "./search";
 
@@ -138,11 +132,13 @@ export function fillInWalls(scene: Scene): Scene {
   return result;
 }
 
+export const sceneSearchOptions = (complexity: number) => ({
+  mutate: mutateScene,
+  fitness: sceneFitness(complexity),
+  start: new Scene()
+});
+
 export async function mkScene(complexity: number): Promise<Scene> {
-  const scene = await search({
-    mutate: mutateScene,
-    fitness: sceneFitness(complexity),
-    start: new Scene()
-  });
+  const scene = await search(sceneSearchOptions(complexity));
   return fillInWalls(scene);
 }

@@ -1,12 +1,12 @@
 // @flow
 
-import React, { Component } from "react";
+import React, { Component, type ComponentType } from "react";
 import { Render } from "./render";
 import { Scene } from "./scene";
 import { handleKeyboard } from "./keyboard";
 
-export function mkApp(scene: Scene) {
-  return class App extends Component<{}, { scene: Scene }> {
+export function mkPlayScene(scene: Scene): ComponentType<{}> {
+  return class PlayScene extends Component<{}, { scene: Scene }> {
     constructor(props: *) {
       super(props);
       this.state = { scene: scene };

@@ -23,8 +23,6 @@ describe("search", () => {
     expect(result).toEqual(42);
   });
 
-  it("aborts if finding a better fitness takes too long");
-
   it("finds a simple scene", async () => {
     const result = await search({
       mutate: mutateScene,
