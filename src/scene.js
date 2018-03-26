@@ -117,11 +117,16 @@ export function fillInWalls(scene: Scene): Scene {
   for (let x = -sceneSize; x <= sceneSize; x++) {
     for (let y = -sceneSize; y <= sceneSize; y++) {
       const position = { x, y };
-      const temporary = result.clone();
-      temporary.walls.push(position);
-      simulate(temporary, wantedPath);
-      if (temporary.success) {
-        result.walls.push(position);
+      if (
+        !_.some(result.walls, position) &&
+        !_.isEqual(result.player, position)
+      ) {
+        const temporary = result.clone();
+        temporary.walls.push(position);
+        simulate(temporary, wantedPath);
+        if (temporary.success) {
+          result.walls.push(position);
+        }
       }
     }
   }
