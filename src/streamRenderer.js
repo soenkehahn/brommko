@@ -12,7 +12,7 @@ export function mkStreamRenderer<A>(
     {},
     { element: ?A, successor: ?ComponentType<{}> }
   > {
-    constructor(props) {
+    constructor(props): void {
       super(props);
       this.state = { element: null, successor: null };
     }

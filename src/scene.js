@@ -45,7 +45,7 @@ export class Scene {
   goal: Position;
   success: boolean;
 
-  constructor() {
+  constructor(): void {
     this.player = { x: 0, y: 0 };
     this.walls = [];
     this.goal = { x: 0, y: 1 };

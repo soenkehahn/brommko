@@ -8,7 +8,7 @@ export class Render extends Component<{ scene: Scene }> {
   svgHeight: number;
   size: number;
 
-  constructor() {
+  constructor(): void {
     super();
     this.svgWidth = 800;
     this.svgHeight = 500;
