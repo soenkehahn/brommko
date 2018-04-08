@@ -18,7 +18,7 @@ function mount(Komponent) {
 
 async function main() {
   const stream = searchStream(
-    sceneSearchOptions({ pathLength: 6, directionChanges: 2, switches: 1 })
+    sceneSearchOptions({ pathLength: 6, directionChanges: 3, switches: 2 })
   );
   const StreamRenderer = mkStreamRenderer(
     stream,

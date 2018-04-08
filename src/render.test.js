@@ -9,12 +9,12 @@ import { simulateKeyEvent } from "./testUtils";
 describe("renderScene", () => {
   it("renders the player", () => {
     const wrapper = mount(<Render scene={new Scene()} />);
-    expect(wrapper.find("rect")).toExist();
+    expect(wrapper.find("polygon")).toExist();
   });
 
   function getPlayerProps(wrapper) {
     return wrapper
-      .find("rect")
+      .find("polygon")
       .findWhere(x => x.props().fill === "blue")
       .props();
   }
@@ -27,11 +27,11 @@ describe("renderScene", () => {
   it("updates the player on scene changes", () => {
     const scene = new Scene();
     const wrapper = mount(<Render scene={scene} />);
-    const initialY = getPlayerProps(wrapper).y;
+    const initialTransform = getPlayerProps(wrapper).transform;
     scene.step("ArrowUp");
     wrapper.setProps({ scene: scene });
-    const lastY = getPlayerProps(wrapper).y;
-    expect(lastY).toBeLessThan(initialY);
+    const lastTransform = getPlayerProps(wrapper).transform;
+    expect(lastTransform).not.toEqual(initialTransform);
   });
 
   it("renders the x position", () => {
@@ -39,6 +39,6 @@ describe("renderScene", () => {
     const initialProps = renderPlayerProps(scene);
     scene.player.x = 3;
     const nextProps = renderPlayerProps(scene);
-    expect(nextProps.x).toBeGreaterThan(initialProps.x);
+    expect(nextProps.transform).not.toEqual(initialProps.transform);
   });
 });
