@@ -62,6 +62,59 @@ describe("player", () => {
   });
 });
 
+describe("switches", () => {
+  describe("levels with one switch", () => {
+    let scene;
+
+    beforeEach(() => {
+      scene = new Scene();
+      scene.addSwitch({ x: 1, y: 0 });
+    });
+
+    it("switches a switch on when touched", () => {
+      expect(scene.switches.map(x => x.pushed)).toEqual([false]);
+      scene.step("ArrowRight");
+      expect(scene.switches.map(x => x.pushed)).toEqual([true]);
+    });
+
+    it("doesn't allow to finish the level if there are unswitched switches", () => {
+      scene.step("ArrowUp");
+      expect(scene.success).toEqual(false);
+    });
+
+    it("allows to finish a level after touching a switch", () => {
+      scene.step("ArrowRight");
+      scene.step("ArrowLeft");
+      scene.step("ArrowUp");
+      expect(scene.success).toEqual(true);
+    });
+  });
+
+  describe("levels with more switches", () => {
+    let scene;
+
+    beforeEach(() => {
+      scene = new Scene();
+      scene.addSwitch({ x: 1, y: 0 });
+      scene.addSwitch({ x: 1, y: 1 });
+    });
+
+    it("allows to finish the level after touching all switches", () => {
+      scene.step("ArrowRight");
+      scene.step("ArrowUp");
+      scene.step("ArrowLeft");
+      expect(scene.success).toEqual(true);
+    });
+
+    it("doesn't allow to finish the level after touching only a subset of switches", () => {
+      scene.step("ArrowRight");
+      scene.step("ArrowLeft");
+      scene.step("ArrowUp");
+      expect(scene.success).toEqual(false);
+    });
+  });
+});
+
 describe("fillInWalls", () => {
   it("fills in all possible walls", () => {
     const scene = fillInWalls(new Scene());

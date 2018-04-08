@@ -30,9 +30,30 @@ function mutatePosition({ x, y }): Position {
   }
 }
 
+class Switch {
+  pushed: boolean = false;
+  position: Position;
+
+  constructor(position: Position): void {
+    this.position = position;
+  }
+
+  static handleSwitches(scene: Scene): boolean {
+    let allPushed = true;
+    for (const switsch of scene.switches) {
+      if (_.isEqual(scene.player, switsch.position)) {
+        switsch.pushed = true;
+      }
+      allPushed = allPushed && switsch.pushed;
+    }
+    return allPushed;
+  }
+}
+
 export class Scene {
   player: Position = { x: 0, y: 0 };
   walls: Array<Position> = [];
+  switches: Array<Switch> = [];
   goal: Position = { x: 0, y: 1 };
   success: boolean = false;
 
@@ -49,7 +70,11 @@ export class Scene {
     return result;
   }
 
-  step(keycode: string) {
+  addSwitch(switsch: Position): void {
+    this.switches.push(new Switch(switsch));
+  }
+
+  step(keycode: string): void {
     if (!this.success) {
       const newPlayer = _.cloneDeep(this.player);
       if (keycode === "ArrowUp") {
@@ -65,7 +90,8 @@ export class Scene {
       if (!isInWall) {
         this.player = newPlayer;
       }
-      if (_.isEqual(this.player, this.goal)) {
+      const allPushed: boolean = Switch.handleSwitches(this);
+      if (_.isEqual(this.player, this.goal) && allPushed) {
         this.success = true;
       }
     }
@@ -86,7 +112,7 @@ export function fillInWalls(scene: Scene): Scene {
   const result = scene.clone();
   const wantedPath = findPath(result);
   if (wantedPath == null) {
-    throw "foo";
+    throw "fillInWalls: can't find path";
   }
   for (let x = -sceneSize; x <= sceneSize; x++) {
     for (let y = -sceneSize; y <= sceneSize; y++) {
