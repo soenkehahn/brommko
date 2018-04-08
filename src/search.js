@@ -29,7 +29,6 @@ export function searchStream<A>(options: {|
         if (mutatedFitness <= currentFitness) {
           best = mutated;
           currentFitness = mutatedFitness;
-          console.error(`current fitness: ${currentFitness}`);
           return { element: best, fitness: currentFitness };
         }
       }

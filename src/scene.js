@@ -4,6 +4,7 @@ import _ from "lodash";
 import { randomInt, deleteIndex, mutateArray } from "./utils";
 import { findPath, simulate } from "./findPath";
 import { search } from "./search";
+import { type SceneProperties, sceneFitness } from "./fitness";
 
 const sceneSize = 5;
 
@@ -27,16 +28,6 @@ function mutatePosition({ x, y }): Position {
       y: randomInt(-sceneSize, sceneSize)
     };
   }
-}
-
-export function pathComplexity(path: Array<string>): number {
-  let directionChanges = 0;
-  for (let i = 0; i <= path.length - 2; i++) {
-    if (path[i] !== path[i + 1]) {
-      directionChanges += 0.1;
-    }
-  }
-  return path.length + directionChanges;
 }
 
 export class Scene {
@@ -81,15 +72,6 @@ export class Scene {
   }
 }
 
-export const sceneFitness: number => Scene => number = target => scene => {
-  const path = findPath(scene);
-  if (!path) {
-    return Infinity;
-  }
-  const complexity = pathComplexity(path);
-  return Math.abs(complexity - target) - 0.01;
-};
-
 export function mutateScene(scene: Scene): Scene {
   const result = scene.clone();
   if (Math.random() < 0.5) {
@@ -125,13 +107,13 @@ export function fillInWalls(scene: Scene): Scene {
   return result;
 }
 
-export const sceneSearchOptions = (complexity: number) => ({
+export const sceneSearchOptions = (properties: SceneProperties) => ({
   mutate: mutateScene,
-  fitness: sceneFitness(complexity),
+  fitness: sceneFitness(properties),
   start: new Scene()
 });
 
-export async function mkScene(complexity: number): Promise<Scene> {
-  const scene = await search(sceneSearchOptions(complexity));
+export async function mkScene(properties: SceneProperties): Promise<Scene> {
+  const scene = await search(sceneSearchOptions(properties));
   return fillInWalls(scene);
 }

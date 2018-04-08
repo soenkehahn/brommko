@@ -1,6 +1,6 @@
 // @flow
 
-import { Scene, fillInWalls, pathComplexity } from "./scene.js";
+import { Scene, fillInWalls } from "./scene.js";
 import { findPath } from "./findPath";
 import _ from "lodash";
 
@@ -59,31 +59,6 @@ describe("player", () => {
       scene.step("ArrowUp");
       expect(scene.player).toEqual({ x: 0, y: 1 });
     });
-  });
-});
-
-describe("pathComplexity", () => {
-  it("returns 0 for the empty path", () => {
-    expect(pathComplexity([])).toEqual(0);
-  });
-
-  it("returns the path complexity", () => {
-    expect(pathComplexity(["ArrowUp"])).toEqual(1);
-    expect(pathComplexity(["ArrowUp", "ArrowUp"])).toEqual(2);
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toEqual(2.1);
-    expect(pathComplexity(["ArrowUp", "ArrowUp", "ArrowLeft"])).toEqual(3.1);
-  });
-
-  it("judges longer paths as more complex", () => {
-    expect(pathComplexity(["ArrowUp", "ArrowDown"])).toBeGreaterThan(
-      pathComplexity(["ArrowUp"])
-    );
-  });
-
-  it("judges changes in direction as more complex", () => {
-    expect(pathComplexity(["ArrowUp", "ArrowLeft"])).toBeGreaterThan(
-      pathComplexity(["ArrowUp", "ArrowUp"])
-    );
   });
 });
 
