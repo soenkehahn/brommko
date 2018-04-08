@@ -38,6 +38,12 @@ class Switch {
     this.position = position;
   }
 
+  clone(): Switch {
+    const result = new Switch(this.position);
+    result.pushed = this.pushed;
+    return result;
+  }
+
   static handleSwitches(scene: Scene): boolean {
     let allPushed = true;
     for (const switsch of scene.switches) {
@@ -47,6 +53,14 @@ class Switch {
       allPushed = allPushed && switsch.pushed;
     }
     return allPushed;
+  }
+
+  static random(): Switch {
+    return new Switch(randomPosition());
+  }
+
+  static mutate(s: Switch): Switch {
+    return new Switch(mutatePosition(s.position));
   }
 }
 
@@ -63,6 +77,9 @@ export class Scene {
     result.player.y = this.player.y;
     for (const wall of this.walls) {
       result.walls.push(wall);
+    }
+    for (const s of this.switches) {
+      result.switches.push(s.clone());
     }
     result.goal.x = this.goal.x;
     result.goal.y = this.goal.y;
@@ -100,10 +117,17 @@ export class Scene {
 
 export function mutateScene(scene: Scene): Scene {
   const result = scene.clone();
-  if (Math.random() < 0.5) {
+  const r = Math.random();
+  if (r < 1 / 3) {
     result.goal = mutatePosition(result.goal);
-  } else {
+  } else if (r < 2 / 3) {
     result.walls = mutateArray(randomPosition, mutatePosition, result.walls);
+  } else {
+    result.switches = mutateArray(
+      Switch.random,
+      Switch.mutate,
+      result.switches
+    );
   }
   return result;
 }
