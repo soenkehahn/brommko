@@ -7,7 +7,7 @@ import { handleKeyboard } from "./keyboard";
 
 export function mkPlayScene(scene: Scene): ComponentType<{}> {
   return class PlayScene extends Component<{}, { scene: Scene }> {
-    state = { scene: scene };
+    state = { scene };
 
     componentWillMount() {
       handleKeyboard(event => {
