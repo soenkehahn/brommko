@@ -41,4 +41,12 @@ describe("renderScene", () => {
     const nextProps = renderPlayerProps(scene);
     expect(nextProps.transform).not.toEqual(initialProps.transform);
   });
+
+  it("renders a success message", () => {
+    const scene = new Scene();
+    const wrapper = mount(<Render scene={scene} />);
+    scene.step("ArrowUp");
+    wrapper.setProps({ scene: scene });
+    expect(wrapper.text()).toEqual("Success!!!");
+  });
 });

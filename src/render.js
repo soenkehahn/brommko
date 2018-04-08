@@ -45,23 +45,26 @@ export class Render extends Component<{ scene: Scene }> {
 
   render() {
     return (
-      <svg width={this.svgWidth} height={this.svgHeight}>
-        <g>
-          {this.props.scene.walls.map((wall, i) =>
-            this.renderRect(wall, "grey", i.toString())
-          )}
-        </g>
-        <g>
-          {this.props.scene.switches.map((s, i) => {
-            console.log("rendering switch", s);
-            const color = s.pushed ? "lightblue" : "red";
-            console.log(color);
-            return this.renderRect(s.position, color, i.toString());
-          })}
-        </g>
-        {this.renderRect(this.props.scene.goal, "green", "goal")}
-        {this.renderDiamond(this.props.scene.player, "blue", "player")}
-      </svg>
+      <div>
+        <svg width={this.svgWidth} height={this.svgHeight}>
+          <g>
+            {this.props.scene.walls.map((wall, i) =>
+              this.renderRect(wall, "grey", i.toString())
+            )}
+          </g>
+          <g>
+            {this.props.scene.switches.map((s, i) => {
+              console.log("rendering switch", s);
+              const color = s.pushed ? "lightblue" : "red";
+              console.log(color);
+              return this.renderRect(s.position, color, i.toString());
+            })}
+          </g>
+          {this.renderRect(this.props.scene.goal, "green", "goal")}
+          {this.renderDiamond(this.props.scene.player, "blue", "player")}
+        </svg>
+        {this.props.scene.success ? "Success!!!" : null}
+      </div>
     );
   }
 }
