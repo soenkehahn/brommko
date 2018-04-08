@@ -13,13 +13,15 @@ export const sceneFitness: SceneProperties => Scene => number = targetProperties
     Math.abs(targetProperties.pathLength - sceneProperties.pathLength) +
     Math.abs(
       targetProperties.directionChanges - sceneProperties.directionChanges
-    )
+    ) +
+    Math.abs(targetProperties.switches - sceneProperties.switches)
   );
 };
 
 export type SceneProperties = {|
   pathLength: number,
-  directionChanges: number
+  directionChanges: number,
+  switches: number
 |};
 
 function getProperties(scene: Scene, path: Array<string>): SceneProperties {
@@ -31,6 +33,7 @@ function getProperties(scene: Scene, path: Array<string>): SceneProperties {
   }
   return {
     pathLength: path.length,
-    directionChanges
+    directionChanges,
+    switches: scene.switches.length
   };
 }

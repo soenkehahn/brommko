@@ -15,24 +15,29 @@ describe("sceneFitness", () => {
         scene.goal = { x: 2, y: 0 };
         const fitness: number = sceneFitness({
           pathLength: 2,
-          directionChanges: 0
+          directionChanges: 0,
+          switches: 0
         })(scene);
         expect(fitness).toEqual(0);
       });
 
       it("it returns the distance to the wanted value for longer paths", () => {
         scene.goal = { x: 3, y: 0 };
-        const fitness = sceneFitness({ pathLength: 2, directionChanges: 0 })(
-          scene
-        );
+        const fitness = sceneFitness({
+          pathLength: 2,
+          directionChanges: 0,
+          switches: 0
+        })(scene);
         expect(fitness).toEqual(1);
       });
 
       it("it returns the distance to the wanted value for shorter paths", () => {
         scene.goal = { x: 1, y: 0 };
-        const fitness = sceneFitness({ pathLength: 2, directionChanges: 0 })(
-          scene
-        );
+        const fitness = sceneFitness({
+          pathLength: 2,
+          directionChanges: 0,
+          switches: 0
+        })(scene);
         expect(fitness).toEqual(1);
       });
     });
@@ -42,9 +47,11 @@ describe("sceneFitness", () => {
     describe("when requesting 1 direction change", () => {
       it("returns zero for an optimal solution", () => {
         scene.goal = { x: 1, y: 1 };
-        const fitness = sceneFitness({ pathLength: 2, directionChanges: 1 })(
-          scene
-        );
+        const fitness = sceneFitness({
+          pathLength: 2,
+          directionChanges: 1,
+          switches: 0
+        })(scene);
         expect(fitness).toEqual(0);
       });
 
@@ -52,17 +59,61 @@ describe("sceneFitness", () => {
         scene.walls.push({ x: 0, y: 2 });
         scene.walls.push({ x: 1, y: 0 });
         scene.goal = { x: 1, y: 2 };
-        const fitness = sceneFitness({ pathLength: 3, directionChanges: 1 })(
-          scene
-        );
+        const fitness = sceneFitness({
+          pathLength: 3,
+          directionChanges: 1,
+          switches: 0
+        })(scene);
         expect(fitness).toEqual(1);
       });
 
       it("returns the distance for less direction changes", () => {
         scene.goal = { x: 2, y: 0 };
-        const fitness = sceneFitness({ pathLength: 2, directionChanges: 1 })(
-          scene
-        );
+        const fitness = sceneFitness({
+          pathLength: 2,
+          directionChanges: 1,
+          switches: 0
+        })(scene);
+        expect(fitness).toEqual(1);
+      });
+    });
+  });
+
+  describe("number of switches", () => {
+    describe("when requesting 2 switches", () => {
+      it("returns zero for an optimal solution", () => {
+        scene.addSwitch({ x: 1, y: 0 });
+        scene.addSwitch({ x: 2, y: 0 });
+        scene.goal = { x: 4, y: 0 };
+        const fitness = sceneFitness({
+          pathLength: 4,
+          directionChanges: 0,
+          switches: 2
+        })(scene);
+        expect(fitness).toEqual(0);
+      });
+
+      it("returns the distance for more switches", () => {
+        scene.addSwitch({ x: 1, y: 0 });
+        scene.addSwitch({ x: 2, y: 0 });
+        scene.addSwitch({ x: 3, y: 0 });
+        scene.goal = { x: 4, y: 0 };
+        const fitness = sceneFitness({
+          pathLength: 4,
+          directionChanges: 0,
+          switches: 2
+        })(scene);
+        expect(fitness).toEqual(1);
+      });
+
+      it("returns the distance for less switches", () => {
+        scene.addSwitch({ x: 1, y: 0 });
+        scene.goal = { x: 4, y: 0 };
+        const fitness = sceneFitness({
+          pathLength: 4,
+          directionChanges: 0,
+          switches: 2
+        })(scene);
         expect(fitness).toEqual(1);
       });
     });
