@@ -12,10 +12,7 @@ export function mkStreamRenderer<A>(
     {},
     { element: ?A, successor: ?ComponentType<{}> }
   > {
-    constructor(props): void {
-      super(props);
-      this.state = { element: null, successor: null };
-    }
+    state = { element: null, successor: null };
 
     loop() {
       setTimeout(() => {

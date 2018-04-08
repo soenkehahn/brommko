@@ -4,16 +4,9 @@ import React, { Component, type Element } from "react";
 import { Scene, type Position } from "./scene";
 
 export class Render extends Component<{ scene: Scene }> {
-  svgWidth: number;
-  svgHeight: number;
-  size: number;
-
-  constructor(): void {
-    super();
-    this.svgWidth = 800;
-    this.svgHeight = 500;
-    this.size = 40;
-  }
+  svgWidth: number = 800;
+  svgHeight: number = 500;
+  size: number = 40;
 
   transformX(x: number): number {
     return this.svgWidth / 2 + x;

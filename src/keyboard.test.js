@@ -6,10 +6,7 @@ import { handleKeyboard } from "./keyboard";
 import { simulateKeyEvent } from "./testUtils";
 
 class Test extends Component<{}, { keydowns: Array<string> }> {
-  constructor(props): void {
-    super(props);
-    this.state = { keydowns: [] };
-  }
+  state = { keydowns: [] };
 
   componentWillMount() {
     handleKeyboard(event => {

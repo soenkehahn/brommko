@@ -40,17 +40,10 @@ export function pathComplexity(path: Array<string>): number {
 }
 
 export class Scene {
-  player: Position;
-  walls: Array<Position>;
-  goal: Position;
-  success: boolean;
-
-  constructor(): void {
-    this.player = { x: 0, y: 0 };
-    this.walls = [];
-    this.goal = { x: 0, y: 1 };
-    this.success = false;
-  }
+  player: Position = { x: 0, y: 0 };
+  walls: Array<Position> = [];
+  goal: Position = { x: 0, y: 1 };
+  success: boolean = false;
 
   clone(): Scene {
     const result = new Scene();
