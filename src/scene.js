@@ -5,6 +5,7 @@ import { randomInt, deleteIndex, mutateArray } from "./utils";
 import { findPath, simulate } from "./findPath";
 import { search } from "./search";
 import { type SceneProperties, sceneFitness } from "./fitness";
+import boxmuller from "box-muller";
 
 const sceneSize = 5;
 
@@ -17,16 +18,18 @@ function randomPosition(): Position {
   };
 }
 
-function mutatePosition({ x, y }): Position {
-  if (Math.random() < 1 / 3) {
-    return { x: randomInt(-sceneSize, sceneSize), y };
-  } else if (Math.random() < 2 / 3) {
-    return { x, y: randomInt(-sceneSize, sceneSize) };
+function mutatePosition(input: Position): Position {
+  function sample(n: number): number {
+    return Math.min(
+      sceneSize,
+      Math.max(-sceneSize, Math.round(n + boxmuller() * 2))
+    );
+  }
+  const result = { x: sample(input.x), y: sample(input.y) };
+  if (!_.isEqual(result, input)) {
+    return result;
   } else {
-    return {
-      x: randomInt(-sceneSize, sceneSize),
-      y: randomInt(-sceneSize, sceneSize)
-    };
+    return mutatePosition(input);
   }
 }
 
