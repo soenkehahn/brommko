@@ -17,7 +17,7 @@ describe("sceneFitness", () => {
           pathLength: 2,
           directionChanges: 0,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(0);
       });
 
@@ -27,7 +27,7 @@ describe("sceneFitness", () => {
           pathLength: 2,
           directionChanges: 0,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
 
@@ -37,7 +37,7 @@ describe("sceneFitness", () => {
           pathLength: 2,
           directionChanges: 0,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
     });
@@ -51,7 +51,7 @@ describe("sceneFitness", () => {
           pathLength: 2,
           directionChanges: 1,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(0);
       });
 
@@ -63,7 +63,7 @@ describe("sceneFitness", () => {
           pathLength: 3,
           directionChanges: 1,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
 
@@ -73,7 +73,7 @@ describe("sceneFitness", () => {
           pathLength: 2,
           directionChanges: 1,
           switches: 0
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
     });
@@ -89,7 +89,7 @@ describe("sceneFitness", () => {
           pathLength: 4,
           directionChanges: 0,
           switches: 2
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(0);
       });
 
@@ -102,7 +102,7 @@ describe("sceneFitness", () => {
           pathLength: 4,
           directionChanges: 0,
           switches: 2
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
 
@@ -113,7 +113,7 @@ describe("sceneFitness", () => {
           pathLength: 4,
           directionChanges: 0,
           switches: 2
-        })(scene);
+        })(scene).fitness;
         expect(fitness).toEqual(1);
       });
     });

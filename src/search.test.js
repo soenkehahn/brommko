@@ -17,7 +17,7 @@ describe("search", () => {
     }
 
     function fitness(n) {
-      return Math.abs(42 - n);
+      return { fitness: Math.abs(42 - n) };
     }
 
     const result = await search({ mutate: mutate, fitness: fitness, start: 0 });

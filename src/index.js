@@ -16,16 +16,27 @@ function mount(Komponent) {
   ReactDOM.render(<Komponent />, domElement);
 }
 
+export function renderComponents(obj: ?{}): string {
+  let result = [];
+  for (const key in obj) {
+    result.push(`${key}: ${obj[key]}`);
+  }
+  return result.join(" --- ");
+}
+
 async function main() {
-  const stream = searchStream(
-    sceneSearchOptions({ pathLength: 6, directionChanges: 2, switches: 1 })
-  );
+  const targetProperties = { pathLength: 6, directionChanges: 2, switches: 2 };
+  const stream = searchStream(sceneSearchOptions(targetProperties));
   const StreamRenderer = mkStreamRenderer(
     stream,
     props => (
       <div>
         <Render scene={props.element.element} />
-        fitness: {props.element.fitness}
+        <div>
+          {renderComponents(props.element.fitness.sceneProperties)} ---
+          (current)
+        </div>
+        <div>{renderComponents(targetProperties)} --- (target)</div>
       </div>
     ),
     best => {
@@ -36,4 +47,6 @@ async function main() {
   mount(StreamRenderer);
 }
 
-main();
+if (!module.parent) {
+  main();
+}

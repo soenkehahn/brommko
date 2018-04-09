@@ -3,19 +3,24 @@
 import { Scene } from "./scene";
 import { findPath } from "./findPath";
 
-export const sceneFitness: SceneProperties => Scene => number = targetProperties => scene => {
+export const sceneFitness: SceneProperties => Scene => {|
+  fitness: number,
+  sceneProperties: ?SceneProperties
+|} = targetProperties => scene => {
   const path = findPath(scene);
   if (!path) {
-    return Infinity;
+    return { fitness: Infinity, sceneProperties: null };
   }
   const sceneProperties = getProperties(scene, path);
-  return (
-    Math.abs(targetProperties.pathLength - sceneProperties.pathLength) +
-    Math.abs(
-      targetProperties.directionChanges - sceneProperties.directionChanges
-    ) +
-    Math.abs(targetProperties.switches - sceneProperties.switches)
-  );
+  return {
+    fitness:
+      Math.abs(targetProperties.pathLength - sceneProperties.pathLength) +
+      Math.abs(
+        targetProperties.directionChanges - sceneProperties.directionChanges
+      ) +
+      Math.abs(targetProperties.switches - sceneProperties.switches),
+    sceneProperties
+  };
 };
 
 export type SceneProperties = {|
