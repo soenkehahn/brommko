@@ -54,9 +54,7 @@ export class Render extends Component<{ scene: Scene }> {
           </g>
           <g>
             {this.props.scene.switches.map((s, i) => {
-              console.log("rendering switch", s);
               const color = s.pushed ? "lightblue" : "red";
-              console.log(color);
               return this.renderRect(s.position, color, i.toString());
             })}
           </g>
