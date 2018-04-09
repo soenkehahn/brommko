@@ -1,5 +1,7 @@
 // @flow
 
+import _ from "lodash";
+
 export type Stream<A> = {
   next: () => ?A
 };
@@ -57,15 +59,16 @@ export function mutateArray<A>(
   array: Array<A>
 ): Array<A> {
   const random = Math.random();
-  if (random < 1 / (array.length + 1)) {
+  if (array.length === 0 || random < 0.7) {
     return array.concat([mkNew()]);
   } else {
     const index = randomInt(0, array.length - 1);
     if (Math.random() < 0.3) {
       return deleteIndex(array, index);
     } else {
-      array[index] = mutate(array[index]);
-      return array;
+      const result = _.cloneDeep(array);
+      result[index] = mutate(result[index]);
+      return result;
     }
   }
 }

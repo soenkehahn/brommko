@@ -1,6 +1,13 @@
 // @flow
 
-import { empty, toStream, last, deleteIndex } from "./utils";
+import {
+  empty,
+  toStream,
+  last,
+  deleteIndex,
+  randomInt,
+  mutateArray
+} from "./utils";
 
 describe("empty", () => {
   it("returns an empty stream", () => {
@@ -38,5 +45,21 @@ describe("last", () => {
 describe("deleteIndex", () => {
   it("deletes the element with the given index", () => {
     expect(deleteIndex([1, 2, 3], 1)).toEqual([1, 3]);
+  });
+});
+
+describe("mutateArray", () => {
+  function mutateInt(n: number): number {
+    return randomInt(0, 10);
+  }
+
+  it("doesn't mutate the existing array", () => {
+    let array = [];
+    for (let i = 0; i < 100; i++) {
+      const old = JSON.stringify(array);
+      const nextArray = mutateArray(() => randomInt(0, 10), mutateInt, array);
+      expect(old).toEqual(JSON.stringify(array));
+      array = nextArray;
+    }
   });
 });
