@@ -1,6 +1,7 @@
 // @flow
 
 import _ from "lodash";
+import { pickRandomly } from "./random";
 
 export type Stream<A> = {
   next: () => ?A
@@ -58,17 +59,34 @@ export function mutateArray<A>(
   mutate: A => A,
   array: Array<A>
 ): Array<A> {
-  const random = Math.random();
-  if (array.length === 0 || random < 0.7) {
-    return array.concat([mkNew()]);
+  const addNew = () => array.concat([mkNew()]);
+
+  if (array.length === 0) {
+    return addNew();
   } else {
-    const index = randomInt(0, array.length - 1);
-    if (Math.random() < 0.3) {
-      return deleteIndex(array, index);
-    } else {
-      const result = _.cloneDeep(array);
-      result[index] = mutate(result[index]);
-      return result;
-    }
+    return pickRandomly(
+      () => {
+        return addNew();
+      },
+      () => {
+        return addNew();
+      },
+      () => {
+        return addNew();
+      },
+      () => {
+        return addNew();
+      },
+      () => {
+        const index = randomInt(0, array.length - 1);
+        return deleteIndex(array, index);
+      },
+      () => {
+        const index = randomInt(0, array.length - 1);
+        const result = _.cloneDeep(array);
+        result[index] = mutate(result[index]);
+        return result;
+      }
+    );
   }
 }

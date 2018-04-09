@@ -5,15 +5,12 @@ import { Scene, mutateScene } from "./scene";
 import { sceneFitness } from "./fitness";
 import { findPath } from "./findPath";
 import { failNull } from "./testUtils";
+import { pickRandomly } from "./random";
 
 describe("search", () => {
   it("finds solutions to a simple problem", async () => {
-    function mutate(n) {
-      if (Math.random() < 0.5) {
-        return n + 1;
-      } else {
-        return n - 1;
-      }
+    function mutate(n: number): number {
+      return pickRandomly(() => n + 1, () => n - 1);
     }
 
     function fitness(n) {

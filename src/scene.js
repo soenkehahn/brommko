@@ -6,6 +6,7 @@ import { findPath, simulate } from "./findPath";
 import { search } from "./search";
 import { type SceneProperties, sceneFitness } from "./fitness";
 import boxmuller from "box-muller";
+import { pickRandomly } from "./random";
 
 const sceneSize = 5;
 
@@ -120,18 +121,21 @@ export class Scene {
 
 export function mutateScene(scene: Scene): Scene {
   const result = scene.clone();
-  const r = Math.random();
-  if (r < 1 / 3) {
-    result.goal = mutatePosition(result.goal);
-  } else if (r < 2 / 3) {
-    result.walls = mutateArray(randomPosition, mutatePosition, result.walls);
-  } else {
-    result.switches = mutateArray(
-      Switch.random,
-      Switch.mutate,
-      result.switches
-    );
-  }
+  pickRandomly(
+    () => {
+      result.goal = mutatePosition(result.goal);
+    },
+    () => {
+      result.walls = mutateArray(randomPosition, mutatePosition, result.walls);
+    },
+    () => {
+      result.switches = mutateArray(
+        Switch.random,
+        Switch.mutate,
+        result.switches
+      );
+    }
+  );
   return result;
 }
 
