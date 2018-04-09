@@ -1680,7 +1680,7 @@ combined-stream@1.0.6, combined-stream@^1.0.5, combined-stream@~1.0.5:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.11.0:
+commander@^2.11.0, commander@^2.9.0:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
@@ -1905,6 +1905,10 @@ currently-unhandled@^0.4.1:
   resolved "https://registry.yarnpkg.com/currently-unhandled/-/currently-unhandled-0.4.1.tgz#988df33feab191ef799a61369dd76c17adf957ea"
   dependencies:
     array-find-index "^1.0.1"
+
+custom-error-instance@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/custom-error-instance/-/custom-error-instance-2.1.1.tgz#3cf6391487a6629a6247eb0ca0ce00081b7e361a"
 
 cyclist@~0.2.2:
   version "0.2.2"
@@ -4249,6 +4253,10 @@ left-pad@^1.2.0:
 leven@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-2.1.0.tgz#c2e7a9f772094dee9d34202ae8acce4687875580"
+
+levenshtein-edit-distance@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/levenshtein-edit-distance/-/levenshtein-edit-distance-1.0.0.tgz#895baf478cce8b5c1a0d27e45d7c1d978a661e49"
 
 levn@~0.3.0:
   version "0.3.0"
@@ -6953,6 +6961,16 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+validated@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/validated/-/validated-1.2.0.tgz#44ca3791cd5b2fc24433f7d1ae3a8896dfe1aec3"
+  dependencies:
+    commander "^2.9.0"
+    custom-error-instance "^2.1.1"
+    indent-string "^2.1.0"
+    invariant "^2.2.2"
+    levenshtein-edit-distance "^1.0.0"
 
 vary@~1.1.2:
   version "1.1.2"

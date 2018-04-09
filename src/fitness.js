@@ -2,6 +2,19 @@
 
 import { Scene } from "./scene";
 import { findPath } from "./findPath";
+import { type Node, object, number } from "validated/schema";
+
+export type SceneProperties = {|
+  pathLength: number,
+  directionChanges: number,
+  switches: number
+|};
+
+export const scenePropertiesSchema: Node<SceneProperties> = object({
+  pathLength: number,
+  directionChanges: number,
+  switches: number
+});
 
 export const sceneFitness: SceneProperties => Scene => {|
   fitness: number,
@@ -22,12 +35,6 @@ export const sceneFitness: SceneProperties => Scene => {|
     sceneProperties
   };
 };
-
-export type SceneProperties = {|
-  pathLength: number,
-  directionChanges: number,
-  switches: number
-|};
 
 function getProperties(scene: Scene, path: Array<string>): SceneProperties {
   let directionChanges = 0;
