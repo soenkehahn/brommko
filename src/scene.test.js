@@ -1,6 +1,6 @@
 // @flow
 
-import { Scene, fillInWalls } from "./scene.js";
+import { Scene, fillInWalls, mutateScene } from "./scene.js";
 import { findPath } from "./findPath";
 import _ from "lodash";
 
@@ -125,5 +125,28 @@ describe("fillInWalls", () => {
   it("doesn't put a wall where the player is", async () => {
     const scene = await fillInWalls(new Scene());
     expect(scene.walls).not.toContainEqual({ x: 0, y: 0 });
+  });
+});
+
+describe("Scene.clone", () => {
+  function toJSON(x) {
+    return JSON.parse(JSON.stringify(x));
+  }
+
+  it("copies all mutating fields", () => {
+    let scene = new Scene();
+    expect(toJSON(scene.clone())).toEqual(toJSON(scene));
+    for (let i = 0; i <= 100; i++) {
+      scene = mutateScene(scene);
+      expect(toJSON(scene.clone())).toEqual(toJSON(scene));
+    }
+  });
+
+  it("copies the player and success", () => {
+    const scene = new Scene();
+    scene.player = { x: 13, y: 42 };
+    scene.success = true;
+    expect(scene.clone().player).toEqual({ x: 13, y: 42 });
+    expect(scene.clone().success).toEqual(true);
   });
 });
