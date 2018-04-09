@@ -159,7 +159,7 @@ export function fillInWalls(scene: Scene): Scene {
 
 export const sceneSearchOptions = (properties: SceneProperties) => ({
   mutate: mutateScene,
-  fitness: sceneFitness(properties),
+  fitness: (scene: Scene) => sceneFitness(properties, scene),
   start: new Scene()
 });
 

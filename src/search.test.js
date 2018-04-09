@@ -27,11 +27,15 @@ describe("search", () => {
   it("finds a simple scene", async () => {
     const result = await search({
       mutate: mutateScene,
-      fitness: sceneFitness({
-        pathLength: 2,
-        directionChanges: 0,
-        switches: 0
-      }),
+      fitness: scene =>
+        sceneFitness(
+          {
+            pathLength: 2,
+            directionChanges: 0,
+            switches: 0
+          },
+          scene
+        ),
       start: new Scene()
     });
     const solution = failNull(findPath(result));

@@ -16,10 +16,13 @@ export const scenePropertiesSchema: Node<SceneProperties> = object({
   switches: number
 });
 
-export const sceneFitness: SceneProperties => Scene => {|
+export function sceneFitness(
+  targetProperties: SceneProperties,
+  scene: Scene
+): {|
   fitness: number,
   sceneProperties: ?SceneProperties
-|} = targetProperties => scene => {
+|} {
   const path = findPath(scene);
   if (!path) {
     return { fitness: Infinity, sceneProperties: null };
@@ -34,7 +37,7 @@ export const sceneFitness: SceneProperties => Scene => {|
       Math.abs(targetProperties.switches - sceneProperties.switches),
     sceneProperties
   };
-};
+}
 
 function getProperties(scene: Scene, path: Array<string>): SceneProperties {
   let directionChanges = 0;
