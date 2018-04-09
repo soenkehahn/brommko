@@ -33,8 +33,9 @@ export function sceneFitness(
       Math.abs(targetProperties.pathLength - sceneProperties.pathLength) +
       Math.abs(
         targetProperties.directionChanges - sceneProperties.directionChanges
-      ) +
-      Math.abs(targetProperties.switches - sceneProperties.switches),
+      ) *
+        10 +
+      Math.abs(targetProperties.switches - sceneProperties.switches) * 100,
     sceneProperties
   };
 }

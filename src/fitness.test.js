@@ -79,7 +79,7 @@ describe("sceneFitness", () => {
           },
           scene
         ).fitness;
-        expect(fitness).toEqual(1);
+        expect(fitness).toEqual(10);
       });
 
       it("returns the distance for less direction changes", () => {
@@ -92,7 +92,7 @@ describe("sceneFitness", () => {
           },
           scene
         ).fitness;
-        expect(fitness).toEqual(1);
+        expect(fitness).toEqual(10);
       });
     });
   });
@@ -127,7 +127,7 @@ describe("sceneFitness", () => {
           },
           scene
         ).fitness;
-        expect(fitness).toEqual(1);
+        expect(fitness).toEqual(100);
       });
 
       it("returns the distance for less switches", () => {
@@ -141,7 +141,7 @@ describe("sceneFitness", () => {
           },
           scene
         ).fitness;
-        expect(fitness).toEqual(1);
+        expect(fitness).toEqual(100);
       });
     });
   });
