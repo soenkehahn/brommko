@@ -6,7 +6,7 @@ import { findPath, simulate } from "./findPath";
 import { search } from "./search";
 import { type SceneProperties, sceneFitness } from "./fitness";
 import boxmuller from "box-muller";
-import { pickRandomly } from "./random";
+import { pick } from "./random";
 
 const sceneSize = 5;
 
@@ -121,7 +121,7 @@ export class Scene {
 
 export function mutateScene(scene: Scene): Scene {
   const result = scene.clone();
-  pickRandomly(
+  pick(
     () => {
       result.goal = mutatePosition(result.goal);
     },

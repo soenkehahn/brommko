@@ -1,7 +1,7 @@
 // @flow
 
 import _ from "lodash";
-import { pickRandomly } from "./random";
+import { pick } from "./random";
 
 export type Stream<A> = {
   next: () => ?A
@@ -64,18 +64,12 @@ export function mutateArray<A>(
   if (array.length === 0) {
     return addNew();
   } else {
-    return pickRandomly(
-      () => {
-        return addNew();
-      },
-      () => {
-        return addNew();
-      },
-      () => {
-        return addNew();
-      },
-      () => {
-        return addNew();
+    return pick(
+      {
+        weight: 5,
+        action: () => {
+          return addNew();
+        }
       },
       () => {
         const index = randomInt(0, array.length - 1);
