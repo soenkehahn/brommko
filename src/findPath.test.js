@@ -11,14 +11,14 @@ describe("findPath", () => {
 
   it("finds a longer solution", () => {
     const scene = new Scene();
-    scene.goal = { x: 0, y: 3 };
+    scene.setGoal({ x: 0, y: 3 });
     expect(findPath(scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
   });
 
   it("aborts after trying many solutions", () => {
     const scene = new Scene();
-    scene.goal = { x: 0, y: 2 };
-    scene.walls = [
+    scene.setGoal({ x: 0, y: 2 });
+    scene.addWalls([
       { x: -1, y: 3 },
       { x: 0, y: 3 },
       { x: 1, y: 3 },
@@ -27,7 +27,7 @@ describe("findPath", () => {
       { x: -1, y: 1 },
       { x: 0, y: 1 },
       { x: 1, y: 1 }
-    ];
+    ]);
     expect(findPath(scene)).toEqual(null);
   });
 });

@@ -38,7 +38,7 @@ describe("player", () => {
   describe("walls", () => {
     it("prevents the player from entering walls", () => {
       const scene = new Scene();
-      scene.walls = [{ x: 0, y: 1 }];
+      scene.addWalls({ x: 0, y: 1 });
       scene.step("ArrowUp");
       expect(scene.player).toEqual({ x: 0, y: 0 });
     });
@@ -47,14 +47,14 @@ describe("player", () => {
   describe("goal", () => {
     it("sets success when the player reaches the goal", () => {
       const scene = new Scene();
-      scene.goal = { x: 0, y: 1 };
+      scene.setGoal({ x: 0, y: 1 });
       scene.step("ArrowUp");
       expect(scene.success).toBe(true);
     });
 
     it("stops simulating the game when goal is reached", () => {
       const scene = new Scene();
-      scene.goal = { x: 0, y: 1 };
+      scene.setGoal({ x: 0, y: 1 });
       scene.step("ArrowUp");
       scene.step("ArrowUp");
       expect(scene.player).toEqual({ x: 0, y: 1 });
@@ -123,7 +123,7 @@ describe("fillInWalls", () => {
   });
 
   it("doesn't put a wall where the player is", async () => {
-    const scene = await fillInWalls(new Scene());
+    const scene = fillInWalls(new Scene());
     expect(scene.walls).not.toContainEqual({ x: 0, y: 0 });
   });
 });

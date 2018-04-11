@@ -12,7 +12,7 @@ describe("sceneFitness", () => {
   describe("path length", () => {
     describe("when training for a path length of 2", () => {
       it("returns zero for a path length of 2", () => {
-        scene.goal = { x: 2, y: 0 };
+        scene.setGoal({ x: 2, y: 0 });
         const fitness: number = sceneFitness(
           {
             pathLength: 2,
@@ -25,7 +25,7 @@ describe("sceneFitness", () => {
       });
 
       it("it returns the distance to the wanted value for longer paths", () => {
-        scene.goal = { x: 3, y: 0 };
+        scene.setGoal({ x: 3, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 2,
@@ -38,7 +38,7 @@ describe("sceneFitness", () => {
       });
 
       it("it returns the distance to the wanted value for shorter paths", () => {
-        scene.goal = { x: 1, y: 0 };
+        scene.setGoal({ x: 1, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 2,
@@ -55,7 +55,7 @@ describe("sceneFitness", () => {
   describe("direction changes", () => {
     describe("when requesting 1 direction change", () => {
       it("returns zero for an optimal solution", () => {
-        scene.goal = { x: 1, y: 1 };
+        scene.setGoal({ x: 1, y: 1 });
         const fitness = sceneFitness(
           {
             pathLength: 2,
@@ -68,9 +68,9 @@ describe("sceneFitness", () => {
       });
 
       it("returns the distance for more direction changes", () => {
-        scene.walls.push({ x: 0, y: 2 });
-        scene.walls.push({ x: 1, y: 0 });
-        scene.goal = { x: 1, y: 2 };
+        scene.addWalls({ x: 0, y: 2 });
+        scene.addWalls({ x: 1, y: 0 });
+        scene.setGoal({ x: 1, y: 2 });
         const fitness = sceneFitness(
           {
             pathLength: 3,
@@ -83,7 +83,7 @@ describe("sceneFitness", () => {
       });
 
       it("returns the distance for less direction changes", () => {
-        scene.goal = { x: 2, y: 0 };
+        scene.setGoal({ x: 2, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 2,
@@ -102,7 +102,7 @@ describe("sceneFitness", () => {
       it("returns zero for an optimal solution", () => {
         scene.addSwitch({ x: 1, y: 0 });
         scene.addSwitch({ x: 2, y: 0 });
-        scene.goal = { x: 4, y: 0 };
+        scene.setGoal({ x: 4, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 4,
@@ -118,7 +118,7 @@ describe("sceneFitness", () => {
         scene.addSwitch({ x: 1, y: 0 });
         scene.addSwitch({ x: 2, y: 0 });
         scene.addSwitch({ x: 3, y: 0 });
-        scene.goal = { x: 4, y: 0 };
+        scene.setGoal({ x: 4, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 4,
@@ -132,7 +132,7 @@ describe("sceneFitness", () => {
 
       it("returns the distance for less switches", () => {
         scene.addSwitch({ x: 1, y: 0 });
-        scene.goal = { x: 4, y: 0 };
+        scene.setGoal({ x: 4, y: 0 });
         const fitness = sceneFitness(
           {
             pathLength: 4,

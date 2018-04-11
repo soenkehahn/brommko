@@ -37,7 +37,7 @@ describe("renderScene", () => {
   it("renders the x position", () => {
     const scene = new Scene();
     const initialProps = renderPlayerProps(scene);
-    scene.player.x = 3;
+    scene.setPlayer({ x: 3, y: 0 });
     const nextProps = renderPlayerProps(scene);
     expect(nextProps.transform).not.toEqual(initialProps.transform);
   });

@@ -70,9 +70,9 @@ class Switch {
 
 export class Scene {
   player: Position = { x: 0, y: 0 };
+  goal: Position = { x: 0, y: 1 };
   walls: Array<Position> = [];
   switches: Array<Switch> = [];
-  goal: Position = { x: 0, y: 1 };
   success: boolean = false;
 
   clone(): Scene {
@@ -89,6 +89,24 @@ export class Scene {
     result.goal.y = this.goal.y;
     result.success = this.success;
     return result;
+  }
+
+  setPlayer(position: Position) {
+    this.player = position;
+  }
+
+  setGoal(position: Position) {
+    this.goal = position;
+  }
+
+  addWalls(walls: Array<Position> | Position) {
+    if (Array.isArray(walls)) {
+      for (const wall of walls) {
+        this.walls.push(wall);
+      }
+    } else {
+      this.walls.push(walls);
+    }
   }
 
   addSwitch(switsch: Position): void {
@@ -153,10 +171,10 @@ export function fillInWalls(scene: Scene): Scene {
         !_.isEqual(result.player, position)
       ) {
         const temporary = result.clone();
-        temporary.walls.push(position);
+        temporary.addWalls(position);
         simulate(temporary, wantedPath);
         if (temporary.success) {
-          result.walls.push(position);
+          result.addWalls(position);
         }
       }
     }
