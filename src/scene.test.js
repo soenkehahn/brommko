@@ -1,7 +1,8 @@
 // @flow
 
-import { Scene, fillInWalls, mutateScene } from "./scene.js";
+import { Switch, Scene, fillInWalls, mutateScene } from "./scene.js";
 import { findPath } from "./findPath";
+import { removeDuplicates } from "./utils";
 import _ from "lodash";
 
 describe("player", () => {
@@ -128,25 +129,87 @@ describe("fillInWalls", () => {
   });
 });
 
-describe("Scene.clone", () => {
+describe("Scene", () => {
   function toJSON(x) {
     return JSON.parse(JSON.stringify(x));
   }
 
-  it("copies all mutating fields", () => {
-    let scene = new Scene();
-    expect(toJSON(scene.clone())).toEqual(toJSON(scene));
-    for (let i = 0; i <= 100; i++) {
-      scene = mutateScene(scene);
+  describe("clone", () => {
+    it("copies all mutating fields", () => {
+      let scene = new Scene();
       expect(toJSON(scene.clone())).toEqual(toJSON(scene));
-    }
+      for (let i = 0; i <= 100; i++) {
+        scene = mutateScene(scene);
+        expect(toJSON(scene.clone())).toEqual(toJSON(scene));
+      }
+    });
+
+    it("copies the player and success", () => {
+      const scene = new Scene();
+      scene.player = { x: 13, y: 42 };
+      scene.success = true;
+      expect(scene.clone().player).toEqual({ x: 13, y: 42 });
+      expect(scene.clone().success).toEqual(true);
+    });
   });
 
-  it("copies the player and success", () => {
-    const scene = new Scene();
-    scene.player = { x: 13, y: 42 };
-    scene.success = true;
-    expect(scene.clone().player).toEqual({ x: 13, y: 42 });
-    expect(scene.clone().success).toEqual(true);
+  describe("_normalize", () => {
+    it("removes wall duplicates", () => {
+      const scene = new Scene();
+      scene.addWalls({ x: 1, y: 1 });
+      scene.addWalls({ x: 1, y: 1 });
+      scene._normalize();
+      expect(Array.from(scene.walls)).toEqual([{ x: 1, y: 1 }]);
+    });
+
+    it("removes switch duplicates", () => {
+      const scene = new Scene();
+      scene.addSwitch({ x: 1, y: 1 });
+      scene.addSwitch({ x: 1, y: 1 });
+      scene._normalize();
+      expect(Array.from(scene.switches)).toEqual([new Switch({ x: 1, y: 1 })]);
+    });
+
+    it("removes walls below the player", () => {
+      const scene = new Scene();
+      scene.addWalls({ x: 0, y: 0 });
+      scene._normalize();
+      expect(Array.from(scene.walls)).toEqual([]);
+    });
+
+    it("removes switches below the player", () => {
+      const scene = new Scene();
+      scene.addSwitch({ x: 0, y: 0 });
+      scene._normalize();
+      expect(Array.from(scene.switches)).toEqual([]);
+    });
+
+    it("removes switches below the goal", () => {
+      const scene = new Scene();
+      scene.addSwitch({ x: 0, y: 1 });
+      scene._normalize();
+      expect(Array.from(scene.switches)).toEqual([]);
+    });
+
+    it("does not modify a valid level", () => {
+      const scene = new Scene();
+      scene.addSwitch({ x: 1, y: 1 });
+      scene.addWalls({ x: 2, y: 2 });
+      const before = toJSON(scene);
+      scene._normalize();
+      const after = toJSON(scene);
+      expect(after).toEqual(before);
+    });
+  });
+});
+
+describe("mutateScene", () => {
+  it("calls _normalize", () => {
+    let scene = new Scene();
+    scene.addWalls({ x: 2, y: 3 });
+    scene.addWalls({ x: 2, y: 3 });
+    expect(scene.walls).toEqual([{ x: 2, y: 3 }, { x: 2, y: 3 }]);
+    scene = mutateScene(scene);
+    expect(scene.walls).toEqual(removeDuplicates(scene.walls));
   });
 });

@@ -6,7 +6,8 @@ import {
   last,
   deleteIndex,
   randomInt,
-  mutateArray
+  mutateArray,
+  removeDuplicates
 } from "./utils";
 
 describe("empty", () => {
@@ -61,5 +62,25 @@ describe("mutateArray", () => {
       expect(old).toEqual(JSON.stringify(array));
       array = nextArray;
     }
+  });
+});
+
+describe("removeDuplicates", () => {
+  it("removes duplicate objects", () => {
+    expect(removeDuplicates([{ x: 23, y: 42 }, { x: 23, y: 42 }])).toEqual([
+      { x: 23, y: 42 }
+    ]);
+  });
+
+  it("removes triplicate objects", () => {
+    expect(
+      removeDuplicates([{ x: 23, y: 42 }, { x: 23, y: 42 }, { x: 23, y: 42 }])
+    ).toEqual([{ x: 23, y: 42 }]);
+  });
+
+  it("removes duplicates around interspersed unique elements", () => {
+    expect(
+      removeDuplicates([{ x: 23, y: 42 }, { x: 1, y: 2 }, { x: 23, y: 42 }])
+    ).toEqual([{ x: 23, y: 42 }, { x: 1, y: 2 }]);
   });
 });

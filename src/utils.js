@@ -84,3 +84,15 @@ export function mutateArray<A>(
     );
   }
 }
+
+export function removeDuplicates<A>(array: Array<A>): Array<A> {
+  const nubSet: Set<string> = new Set();
+  const result = [];
+  for (const element of array) {
+    if (!nubSet.has(JSON.stringify(element))) {
+      result.push(element);
+      nubSet.add(JSON.stringify(element));
+    }
+  }
+  return result;
+}

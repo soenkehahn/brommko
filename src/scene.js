@@ -1,7 +1,7 @@
 // @flow
 
 import _ from "lodash";
-import { randomInt, deleteIndex, mutateArray } from "./utils";
+import { randomInt, deleteIndex, mutateArray, removeDuplicates } from "./utils";
 import { findPath, simulate } from "./findPath";
 import { search } from "./search";
 import { type SceneProperties, sceneFitness } from "./fitness";
@@ -34,7 +34,7 @@ function mutatePosition(input: Position): Position {
   }
 }
 
-class Switch {
+export class Switch {
   pushed: boolean = false;
   position: Position;
 
@@ -113,6 +113,19 @@ export class Scene {
     this.switches.push(new Switch(switsch));
   }
 
+  _normalize(): void {
+    this.walls = removeDuplicates(this.walls);
+    this.walls = _.filter(this.walls, e => !_.isEqual(e, this.player));
+    this.switches = removeDuplicates(this.switches);
+    this.switches = _.filter(
+      this.switches,
+      e =>
+        !(
+          _.isEqual(e.position, this.player) || _.isEqual(e.position, this.goal)
+        )
+    );
+  }
+
   step(keycode: string): void {
     if (!this.success) {
       const newPlayer = _.cloneDeep(this.player);
@@ -154,6 +167,7 @@ export function mutateScene(scene: Scene): Scene {
       );
     }
   );
+  result._normalize();
   return result;
 }
 
