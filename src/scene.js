@@ -96,6 +96,38 @@ export class Scene {
     return result;
   }
 
+  static mutate(scene: Scene): Scene {
+    const result = scene.clone();
+    pick(
+      () => {
+        result.goal = mutatePosition(result.goal);
+      },
+      () => {
+        result.walls = mutateArray(
+          randomPosition,
+          mutatePosition,
+          result.walls
+        );
+      },
+      () => {
+        result.switches = mutateArray(
+          Switch.random,
+          Switch.mutate,
+          result.switches
+        );
+      },
+      () => {
+        result.directors = mutateArray(
+          Director.random,
+          Director.mutate,
+          result.directors
+        );
+      }
+    );
+    result._normalize();
+    return result;
+  }
+
   setPlayer(position: Position) {
     this.player = position;
   }
@@ -160,34 +192,6 @@ export class Scene {
   }
 }
 
-export function mutateScene(scene: Scene): Scene {
-  const result = scene.clone();
-  pick(
-    () => {
-      result.goal = mutatePosition(result.goal);
-    },
-    () => {
-      result.walls = mutateArray(randomPosition, mutatePosition, result.walls);
-    },
-    () => {
-      result.switches = mutateArray(
-        Switch.random,
-        Switch.mutate,
-        result.switches
-      );
-    },
-    () => {
-      result.directors = mutateArray(
-        Director.random,
-        Director.mutate,
-        result.directors
-      );
-    }
-  );
-  result._normalize();
-  return result;
-}
-
 export function fillInWalls(scene: Scene): Scene {
   const result = scene.clone();
   const solution = findPath(result);
@@ -215,7 +219,7 @@ export function fillInWalls(scene: Scene): Scene {
 }
 
 export const sceneSearchOptions = (properties: SceneProperties) => ({
-  mutate: mutateScene,
+  mutate: Scene.mutate,
   fitness: (scene: Scene) => sceneFitness(properties, scene),
   start: new Scene()
 });

@@ -1,6 +1,6 @@
 // @flow
 
-import { Switch, Scene, fillInWalls, mutateScene } from "./scene.js";
+import { Switch, Scene, fillInWalls } from "./scene.js";
 import { findPath } from "./findPath";
 import { removeDuplicates } from "./utils";
 import _ from "lodash";
@@ -139,7 +139,7 @@ describe("Scene", () => {
       let scene = new Scene();
       expect(toJSON(scene.clone())).toEqual(toJSON(scene));
       for (let i = 0; i <= 100; i++) {
-        scene = mutateScene(scene);
+        scene = Scene.mutate(scene);
         expect(toJSON(scene.clone())).toEqual(toJSON(scene));
       }
     });
@@ -203,13 +203,13 @@ describe("Scene", () => {
   });
 });
 
-describe("mutateScene", () => {
+describe("mutate", () => {
   it("calls _normalize", () => {
     let scene = new Scene();
     scene.addWalls({ x: 2, y: 3 });
     scene.addWalls({ x: 2, y: 3 });
     expect(scene.walls).toEqual([{ x: 2, y: 3 }, { x: 2, y: 3 }]);
-    scene = mutateScene(scene);
+    scene = Scene.mutate(scene);
     expect(scene.walls).toEqual(removeDuplicates(scene.walls));
   });
 });

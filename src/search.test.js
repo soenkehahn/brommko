@@ -1,7 +1,7 @@
 // @flow
 
 import { search } from "./search";
-import { Scene, mutateScene } from "./scene";
+import { Scene } from "./scene";
 import { sceneFitness } from "./fitness";
 import { findPath } from "./findPath";
 import { failNull } from "./testUtils";
@@ -23,7 +23,7 @@ describe("search", () => {
 
   it("finds a simple scene", async () => {
     const result = await search({
-      mutate: mutateScene,
+      mutate: Scene.mutate,
       fitness: scene =>
         sceneFitness(
           {
