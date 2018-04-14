@@ -38,6 +38,19 @@ export async function last<A>(stream: Stream<A>): Promise<A> {
   return element;
 }
 
+export function mapStream<A, B>(f: A => B, stream: Stream<A>): Stream<B> {
+  return {
+    next: () => {
+      const input = stream.next();
+      if (input !== null && input !== undefined) {
+        return f(input);
+      } else {
+        return null;
+      }
+    }
+  };
+}
+
 export function randomInt(lower: number, upper: number): number {
   return Math.floor(Math.random() * Math.floor(1 + upper - lower)) + lower;
 }

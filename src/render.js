@@ -8,35 +8,32 @@ export class Render extends Component<{ scene: Scene }> {
   svgHeight: number = 500;
   size: number = 40;
 
-  transformX(x: number): number {
-    return this.svgWidth / 2 + x;
-  }
-
-  transformY(y: number): number {
-    return this.svgHeight / 2 + y;
+  mkPositionTransform(position: Position): string {
+    const x = this.svgWidth / 2 + position.x * this.size;
+    const y = this.svgHeight / 2 + -position.y * this.size;
+    return `translate(${x + this.size / 2} ${y + this.size / 2})`;
   }
 
   renderRect(position: Position, color: string, key: string): Element<*> {
     return (
       <rect
-        x={this.transformX(position.x * this.size)}
-        y={this.transformY(-position.y * this.size)}
+        x={-this.size / 2}
+        y={-this.size / 2}
         width={this.size}
         height={this.size}
         fill={color}
         key={key}
+        transform={this.mkPositionTransform(position)}
       />
     );
   }
 
   renderDiamond(position: Position, color: string, key: string): Element<*> {
-    const x = this.transformX(position.x * this.size);
-    const y = this.transformY(-position.y * this.size);
     const size = this.size;
     return (
       <polygon
         points={`0,-${size / 2} ${size / 2},0 0,${size / 2} -${size / 2},0`}
-        transform={`translate(${x + size / 2} ${y + size / 2})`}
+        transform={this.mkPositionTransform(position)}
         fill={color}
         key={key}
       />
@@ -60,6 +57,11 @@ export class Render extends Component<{ scene: Scene }> {
           </g>
           {this.renderRect(this.props.scene.goal, "green", "goal")}
           {this.renderDiamond(this.props.scene.player, "blue", "player")}
+          <g>
+            {Array.from(this.props.scene.directors).map((d, i) =>
+              d.render(this, i)
+            )}
+          </g>
         </svg>
         {this.props.scene.success ? "Success!!!" : null}
       </div>

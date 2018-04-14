@@ -2,17 +2,28 @@
 
 import { Scene } from "./scene.js";
 import { findPath, mkAllPaths } from "./findPath";
+import { failNull } from "./testUtils";
 
 describe("findPath", () => {
   it("finds a solution to a simple scene", () => {
     const scene = new Scene();
-    expect(findPath(scene)).toEqual(["ArrowUp"]);
+    expect(failNull(findPath(scene)).path).toEqual(["ArrowUp"]);
+  });
+
+  it("also returns the solved scene", () => {
+    const scene = new Scene();
+    const solved: Scene = failNull(findPath(scene)).scene;
+    expect(solved.success).toEqual(true);
   });
 
   it("finds a longer solution", () => {
     const scene = new Scene();
     scene.setGoal({ x: 0, y: 3 });
-    expect(findPath(scene)).toEqual(["ArrowUp", "ArrowUp", "ArrowUp"]);
+    expect(failNull(findPath(scene)).path).toEqual([
+      "ArrowUp",
+      "ArrowUp",
+      "ArrowUp"
+    ]);
   });
 
   it("aborts after trying many solutions", () => {

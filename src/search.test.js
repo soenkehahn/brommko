@@ -29,13 +29,14 @@ describe("search", () => {
           {
             pathLength: 2,
             directionChanges: 0,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ),
       start: new Scene()
     });
-    const solution = failNull(findPath(result));
+    const solution = failNull(findPath(result)).path;
     expect(solution.length).toEqual(2);
     expect(solution[0]).toEqual(solution[1]);
   });

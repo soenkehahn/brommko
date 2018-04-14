@@ -1,11 +1,17 @@
 // @flow
 
 import { Scene } from "./scene";
-import { type Stream } from "./utils";
+import { type Stream, mapStream } from "./utils";
 
-export function findPath(scene: Scene, maxLength: number = 6): ?Array<string> {
-  return findFirst(mkAllPaths(maxLength), path => {
-    const clone = scene.clone();
+export function findPath(
+  targetScene: Scene,
+  maxLength: number = 6
+): ?{ path: Array<string>, scene: Scene } {
+  const stream: Stream<{ scene: Scene, path: Array<string> }> = mapStream(
+    path => ({ scene: targetScene.clone(), path: path }),
+    mkAllPaths(maxLength)
+  );
+  return findFirst(stream, ({ path, scene: clone }) => {
     simulate(clone, path);
     return clone.success;
   });

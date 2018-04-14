@@ -25,7 +25,12 @@ export function renderComponents(obj: ?{}): string {
 }
 
 async function main() {
-  const targetProperties = { pathLength: 6, directionChanges: 2, switches: 2 };
+  const targetProperties = {
+    pathLength: 3,
+    directionChanges: 0,
+    switches: 0,
+    directors: 2
+  };
   const stream = searchStream(sceneSearchOptions(targetProperties));
   const StreamRenderer = mkStreamRenderer(
     stream,

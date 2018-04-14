@@ -4,42 +4,55 @@ import {
   empty,
   toStream,
   last,
+  mapStream,
   deleteIndex,
   randomInt,
   mutateArray,
   removeDuplicates
 } from "./utils";
 
-describe("empty", () => {
-  it("returns an empty stream", () => {
-    expect(empty().next()).toEqual(null);
-  });
-});
-
-describe("toStream", () => {
-  it("converts an array into a stream", () => {
-    const stream = toStream([1, 2, 3]);
-    expect(stream.next()).toEqual(1);
-    expect(stream.next()).toEqual(2);
-    expect(stream.next()).toEqual(3);
-    expect(stream.next()).toEqual(null);
-  });
-});
-
-describe("last", () => {
-  it("returns the last element of the stream", async () => {
-    expect(await last(toStream([1, 2, 3]))).toEqual(3);
+describe("Stream functions", () => {
+  describe("empty", () => {
+    it("returns an empty stream", () => {
+      expect(empty().next()).toEqual(null);
+    });
   });
 
-  it("gracefully deals with empty streams", async () => {
-    let thrown = false;
-    try {
-      await last(empty());
-    } catch (err) {
-      thrown = true;
-      expect(err).toMatch("last: empty stream");
-    }
-    expect(thrown).toBe(true);
+  describe("toStream", () => {
+    it("converts an array into a stream", () => {
+      const stream = toStream([1, 2, 3]);
+      expect(stream.next()).toEqual(1);
+      expect(stream.next()).toEqual(2);
+      expect(stream.next()).toEqual(3);
+      expect(stream.next()).toEqual(null);
+    });
+  });
+
+  describe("last", () => {
+    it("returns the last element of the stream", async () => {
+      expect(await last(toStream([1, 2, 3]))).toEqual(3);
+    });
+
+    it("gracefully deals with empty streams", async () => {
+      let thrown = false;
+      try {
+        await last(empty());
+      } catch (err) {
+        thrown = true;
+        expect(err).toMatch("last: empty stream");
+      }
+      expect(thrown).toBe(true);
+    });
+  });
+
+  describe("map", () => {
+    it("iterates over a given stream", () => {
+      const stream = mapStream(e => e * 2, toStream([1, 2, 3]));
+      expect(stream.next()).toEqual(2);
+      expect(stream.next()).toEqual(4);
+      expect(stream.next()).toEqual(6);
+      expect(stream.next()).toEqual(null);
+    });
   });
 });
 

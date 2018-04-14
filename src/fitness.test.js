@@ -17,7 +17,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 2,
             directionChanges: 0,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -30,7 +31,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 2,
             directionChanges: 0,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -43,7 +45,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 2,
             directionChanges: 0,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -60,7 +63,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 2,
             directionChanges: 1,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -75,7 +79,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 3,
             directionChanges: 1,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -88,7 +93,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 2,
             directionChanges: 1,
-            switches: 0
+            switches: 0,
+            directors: 0
           },
           scene
         ).fitness;
@@ -107,7 +113,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 4,
             directionChanges: 0,
-            switches: 2
+            switches: 2,
+            directors: 0
           },
           scene
         ).fitness;
@@ -123,7 +130,8 @@ describe("sceneFitness", () => {
           {
             pathLength: 4,
             directionChanges: 0,
-            switches: 2
+            switches: 2,
+            directors: 0
           },
           scene
         ).fitness;
@@ -137,7 +145,57 @@ describe("sceneFitness", () => {
           {
             pathLength: 4,
             directionChanges: 0,
-            switches: 2
+            switches: 2,
+            directors: 0
+          },
+          scene
+        ).fitness;
+        expect(fitness).toEqual(100);
+      });
+    });
+  });
+
+  describe("number of directors", () => {
+    describe("when requesting one passed director", () => {
+      it("returns zero for an optimal solution", () => {
+        scene.addDirector({ x: 0, y: 1 }, "left");
+        scene.setGoal({ x: -1, y: 4 });
+        const fitness = sceneFitness(
+          {
+            pathLength: 4,
+            directionChanges: 0,
+            switches: 0,
+            directors: 1
+          },
+          scene
+        ).fitness;
+        expect(fitness).toEqual(0);
+      });
+
+      it("returns the distance for less directors", () => {
+        scene.setGoal({ x: 4, y: 0 });
+        const fitness = sceneFitness(
+          {
+            pathLength: 4,
+            directionChanges: 0,
+            switches: 0,
+            directors: 1
+          },
+          scene
+        ).fitness;
+        expect(fitness).toEqual(100);
+      });
+
+      it("returns the distance for more directors", () => {
+        scene.addDirector({ x: 0, y: 1 }, "left");
+        scene.addDirector({ x: -1, y: 2 }, "left");
+        scene.setGoal({ x: -2, y: 4 });
+        const fitness = sceneFitness(
+          {
+            pathLength: 4,
+            directionChanges: 0,
+            switches: 0,
+            directors: 1
           },
           scene
         ).fitness;

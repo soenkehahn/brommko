@@ -3,17 +3,20 @@
 import { Scene } from "./scene";
 import { findPath } from "./findPath";
 import { type Node, object, number } from "validated/schema";
+import _ from "lodash";
 
 export type SceneProperties = {|
   pathLength: number,
   directionChanges: number,
-  switches: number
+  switches: number,
+  directors: number
 |};
 
 export const scenePropertiesSchema: Node<SceneProperties> = object({
   pathLength: number,
   directionChanges: number,
-  switches: number
+  switches: number,
+  directors: number
 });
 
 export function sceneFitness(
@@ -23,11 +26,11 @@ export function sceneFitness(
   fitness: number,
   sceneProperties: ?SceneProperties
 |} {
-  const path = findPath(scene);
-  if (!path) {
+  const solution = findPath(scene);
+  if (!solution) {
     return { fitness: Infinity, sceneProperties: null };
   }
-  const sceneProperties = getProperties(scene, path);
+  const sceneProperties = getProperties(solution.scene, solution.path);
   return {
     fitness:
       Math.abs(targetProperties.pathLength - sceneProperties.pathLength) +
@@ -35,7 +38,8 @@ export function sceneFitness(
         targetProperties.directionChanges - sceneProperties.directionChanges
       ) *
         10 +
-      Math.abs(targetProperties.switches - sceneProperties.switches) * 100,
+      Math.abs(targetProperties.switches - sceneProperties.switches) * 100 +
+      Math.abs(targetProperties.directors - sceneProperties.directors) * 100,
     sceneProperties
   };
 }
@@ -50,6 +54,7 @@ function getProperties(scene: Scene, path: Array<string>): SceneProperties {
   return {
     pathLength: path.length,
     directionChanges,
-    switches: scene.switches.length
+    switches: scene.switches.length,
+    directors: _.filter(scene.directors, director => director.passed).length
   };
 }

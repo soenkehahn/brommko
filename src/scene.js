@@ -7,19 +7,20 @@ import { search } from "./search";
 import { type SceneProperties, sceneFitness } from "./fitness";
 import boxmuller from "box-muller";
 import { pick } from "./random";
+import { type Direction, Director } from "./director";
 
 const sceneSize = 5;
 
 export type Position = { x: number, y: number };
 
-function randomPosition(): Position {
+export function randomPosition(): Position {
   return {
     x: randomInt(-sceneSize, sceneSize),
     y: randomInt(-sceneSize, sceneSize)
   };
 }
 
-function mutatePosition(input: Position): Position {
+export function mutatePosition(input: Position): Position {
   function sample(n: number): number {
     return Math.min(
       sceneSize,
@@ -73,6 +74,7 @@ export class Scene {
   goal: Position = { x: 0, y: 1 };
   walls: Array<Position> = [];
   switches: Array<Switch> = [];
+  directors: Array<Director> = [];
   success: boolean = false;
 
   clone(): Scene {
@@ -84,6 +86,9 @@ export class Scene {
     }
     for (const s of this.switches) {
       result.switches.push(s.clone());
+    }
+    for (const director of this.directors) {
+      result.directors.push(director.clone());
     }
     result.goal.x = this.goal.x;
     result.goal.y = this.goal.y;
@@ -126,6 +131,10 @@ export class Scene {
     );
   }
 
+  addDirector(position: Position, direction: Direction) {
+    this.directors.push(new Director(position, direction));
+  }
+
   step(keycode: string): void {
     if (!this.success) {
       const newPlayer = _.cloneDeep(this.player);
@@ -142,6 +151,7 @@ export class Scene {
       if (!isInWall) {
         this.player = newPlayer;
       }
+      Director.handleDirectors(this);
       const allPushed: boolean = Switch.handleSwitches(this);
       if (_.isEqual(this.player, this.goal) && allPushed) {
         this.success = true;
@@ -165,6 +175,13 @@ export function mutateScene(scene: Scene): Scene {
         Switch.mutate,
         result.switches
       );
+    },
+    () => {
+      result.directors = mutateArray(
+        Director.random,
+        Director.mutate,
+        result.directors
+      );
     }
   );
   result._normalize();
@@ -173,10 +190,11 @@ export function mutateScene(scene: Scene): Scene {
 
 export function fillInWalls(scene: Scene): Scene {
   const result = scene.clone();
-  const wantedPath = findPath(result);
-  if (wantedPath == null) {
+  const solution = findPath(result);
+  if (solution == null) {
     throw "fillInWalls: can't find path";
   }
+  const wantedPath = solution.path;
   for (let x = -sceneSize; x <= sceneSize; x++) {
     for (let y = -sceneSize; y <= sceneSize; y++) {
       const position = { x, y };
