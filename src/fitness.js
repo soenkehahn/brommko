@@ -1,8 +1,8 @@
 // @flow
 
+import { type Node, number, object } from "validated/schema";
 import { Scene } from "./scene";
 import { findPath } from "./findPath";
-import { type Node, object, number } from "validated/schema";
 import _ from "lodash";
 
 export type SceneProperties = {|

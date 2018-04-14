@@ -2,12 +2,12 @@
 
 // @flow
 
-import { mkScene } from "./scene";
 import {
   type SceneProperties,
-  scenePropertiesSchema,
-  sceneFitness
+  sceneFitness,
+  scenePropertiesSchema
 } from "./fitness";
+import { mkScene } from "./scene";
 import { validate } from "validated/json5";
 
 async function main() {

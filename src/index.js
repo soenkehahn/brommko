@@ -1,13 +1,13 @@
 // @flow
 
-import React from "react";
-import ReactDOM from "react-dom";
+import { App } from "./components/App";
+import { Render } from "./components/render";
+import { Scene, fillInWalls, sceneSearchOptions } from "./scene";
 import { mkPlayScene } from "./components/playScene";
-import { Scene, sceneSearchOptions, fillInWalls } from "./scene";
 import { mkStreamRenderer } from "./components/streamRenderer";
 import { searchStream } from "./search";
-import { Render } from "./components/render";
-import { App } from "./components/App";
+import React from "react";
+import ReactDOM from "react-dom";
 
 function mount(Komponent) {
   const domElement = document.getElementById("root");

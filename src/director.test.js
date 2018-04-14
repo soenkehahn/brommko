@@ -1,10 +1,10 @@
 // @flow
 
-import React from "react";
-import { Scene } from "./scene";
 import { Director } from "./director";
 import { Render } from "./components/render";
+import { Scene } from "./scene";
 import { mount } from "enzyme";
+import React from "react";
 
 describe("director", () => {
   describe("render", () => {

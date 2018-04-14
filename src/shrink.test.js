@@ -1,8 +1,8 @@
 // @flow
 
-import _ from "lodash";
+import { type Stream, empty, toStream } from "./utils";
 import { runShrink } from "./shrink";
-import { type Stream, toStream, empty } from "./utils";
+import _ from "lodash";
 
 describe("shrink", () => {
   it("can shrink simple integers", async () => {

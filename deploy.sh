@@ -3,8 +3,7 @@
 set -eux
 
 yarn install
-flow stop && flow
-jest
+yarn test
 
 rm -rf docs
 mkdir -p docs

@@ -1,6 +1,6 @@
 // @flow
 
-import { Switch, Scene, fillInWalls } from "./scene.js";
+import { Scene, Switch, fillInWalls } from "./scene.js";
 import { findPath } from "./findPath";
 import { removeDuplicates } from "./utils";
 import _ from "lodash";

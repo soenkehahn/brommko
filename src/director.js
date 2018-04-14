@@ -1,9 +1,9 @@
 // @flow
 
-import React, { type Element } from "react";
-import { type Position, randomPosition, mutatePosition, Scene } from "./scene";
+import { type Position, Scene, mutatePosition, randomPosition } from "./scene";
 import { Render } from "./components/render";
 import { pick } from "./random";
+import React, { type Element } from "react";
 import _ from "lodash";
 
 export type Direction = "up" | "right" | "down" | "left";

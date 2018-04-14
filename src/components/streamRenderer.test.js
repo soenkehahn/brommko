@@ -1,9 +1,9 @@
 // @flow
 
-import React, { Component, type Element } from "react";
 import { mkStreamRenderer } from "./streamRenderer";
-import { toStream } from "../utils";
 import { mount } from "enzyme";
+import { toStream } from "../utils";
+import React, { Component, type Element } from "react";
 
 function wait(n: number): Promise<void> {
   return new Promise(resolve => {

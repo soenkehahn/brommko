@@ -1,0 +1,7 @@
+parser: babel-eslint
+plugins:
+  - sort-imports-es6-autofix
+rules:
+  curly: ["error", "all"]
+  sort-imports-es6-autofix/sort-imports-es6:
+    - error

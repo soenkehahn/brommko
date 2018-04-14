@@ -1,11 +1,11 @@
 // @flow
 
-import { search } from "./search";
 import { Scene } from "./scene";
-import { sceneFitness } from "./fitness";
-import { findPath } from "./findPath";
 import { failNull } from "./testUtils";
+import { findPath } from "./findPath";
 import { pick } from "./random";
+import { sceneFitness } from "./fitness";
+import { search } from "./search";
 
 describe("search", () => {
   it("finds solutions to a simple problem", async () => {

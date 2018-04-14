@@ -1,8 +1,8 @@
 // @flow
 
 import { Scene } from "./scene.js";
-import { findPath, mkAllPaths } from "./findPath";
 import { failNull } from "./testUtils";
+import { findPath, mkAllPaths } from "./findPath";
 
 describe("findPath", () => {
   it("finds a solution to a simple scene", () => {

@@ -1,7 +1,7 @@
 // @flow
 
-import _ from "lodash";
 import { pick } from "./random";
+import _ from "lodash";
 
 export type Stream<A> = {
   next: () => ?A

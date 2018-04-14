@@ -1,9 +1,9 @@
 // @flow
 
-import React, { Component } from "react";
-import { mount } from "enzyme";
 import { handleKeyboard } from "./keyboard";
+import { mount } from "enzyme";
 import { simulateKeyEvent } from "../testUtils";
+import React, { Component } from "react";
 
 class Test extends Component<{}, { keydowns: Array<string> }> {
   state = { keydowns: [] };

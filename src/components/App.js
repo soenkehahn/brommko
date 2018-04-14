@@ -1,11 +1,11 @@
 // @flow
 
-import React from "react";
-import { searchStream } from "../search";
-import { Scene, sceneSearchOptions, fillInWalls } from "../scene";
-import { mkStreamRenderer } from "./streamRenderer";
 import { Render } from "./render";
+import { Scene, fillInWalls, sceneSearchOptions } from "../scene";
 import { mkPlayScene } from "./playScene";
+import { mkStreamRenderer } from "./streamRenderer";
+import { searchStream } from "../search";
+import React from "react";
 
 export function renderComponents(obj: ?{}): string {
   let result = [];

@@ -1,14 +1,14 @@
 // @flow
 
 import {
+  deleteIndex,
   empty,
-  toStream,
   last,
   mapStream,
-  deleteIndex,
-  randomInt,
   mutateArray,
-  removeDuplicates
+  randomInt,
+  removeDuplicates,
+  toStream
 } from "./utils";
 
 describe("Stream functions", () => {

@@ -1,13 +1,13 @@
 // @flow
 
-import _ from "lodash";
-import { randomInt, deleteIndex, mutateArray, removeDuplicates } from "./utils";
-import { findPath, simulate } from "./findPath";
-import { search } from "./search";
-import { type SceneProperties, sceneFitness } from "./fitness";
-import boxmuller from "box-muller";
-import { pick } from "./random";
 import { type Direction, Director } from "./director";
+import { type SceneProperties, sceneFitness } from "./fitness";
+import { deleteIndex, mutateArray, randomInt, removeDuplicates } from "./utils";
+import { findPath, simulate } from "./findPath";
+import { pick } from "./random";
+import { search } from "./search";
+import _ from "lodash";
+import boxmuller from "box-muller";
 
 const sceneSize = 5;
 
