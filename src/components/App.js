@@ -1,7 +1,7 @@
 // @flow
 
 import { Render } from "./render";
-import { Scene, fillInWalls, sceneSearchOptions } from "../scene";
+import { fillInWalls, sceneSearchOptions } from "../scene";
 import { mkPlayScene } from "./playScene";
 import { mkStreamRenderer } from "./streamRenderer";
 import { searchStream } from "../search";

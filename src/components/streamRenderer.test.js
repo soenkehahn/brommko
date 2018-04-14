@@ -3,7 +3,7 @@
 import { mkStreamRenderer } from "./streamRenderer";
 import { mount } from "enzyme";
 import { toStream } from "../utils";
-import React, { Component, type Element } from "react";
+import React, { type Element } from "react";
 
 function wait(n: number): Promise<void> {
   return new Promise(resolve => {
@@ -38,7 +38,7 @@ describe("StreamRenderer", () => {
       render,
       Successor
     );
-    const wrapper = mount(<StreamRenderer />);
+    mount(<StreamRenderer />);
     await waitUntil(() => {
       expect(rendered).toEqual([1, 2, 3]);
     });
@@ -55,7 +55,7 @@ describe("StreamRenderer", () => {
   });
 
   it("renders the successor after the stream is done", async () => {
-    const render = n => <div />;
+    const render = _n => <div />;
     const StreamRenderer = mkStreamRenderer(
       toStream([1, 2, 3]),
       render,

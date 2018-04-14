@@ -10,7 +10,7 @@ import React from "react";
 describe("PlayScene", () => {
   it("renders without crashing", () => {
     const PlayScene = mkPlayScene(new Scene());
-    const wrapper = mount(<PlayScene />);
+    mount(<PlayScene />);
   });
 
   it("relays keydowns to the scene", () => {

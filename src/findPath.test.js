@@ -60,7 +60,7 @@ describe("mkAllPaths", () => {
 
   it("goes on for a long time", () => {
     const allPaths = mkAllPaths(20);
-    for (const i of Array(1000)) {
+    for (const _i of Array(1000)) {
       allPaths.next();
     }
     expect(allPaths.next()).toEqual([

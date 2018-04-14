@@ -2,8 +2,8 @@
 
 import { type Direction, Director } from "./director";
 import { type SceneProperties, sceneFitness } from "./fitness";
-import { deleteIndex, mutateArray, randomInt, removeDuplicates } from "./utils";
 import { findPath, simulate } from "./findPath";
+import { mutateArray, randomInt, removeDuplicates } from "./utils";
 import { pick } from "./random";
 import { search } from "./search";
 import _ from "lodash";

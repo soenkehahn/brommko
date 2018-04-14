@@ -3,11 +3,6 @@
 import { type Action, _pick } from "./random";
 
 describe("pick", () => {
-  let result;
-  beforeEach(() => {
-    result = null;
-  });
-
   describe("when picking between two choices", () => {
     const actions: Array<Action<number>> = [() => 1, () => 2];
 

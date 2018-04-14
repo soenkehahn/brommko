@@ -16,7 +16,7 @@ describe("shrink", () => {
     it("throws an exception", async () => {
       let caught = false;
       try {
-        await runShrink(42, n => toStream([n - 1]), n => false);
+        await runShrink(42, n => toStream([n - 1]), _n => false);
       } catch (err) {
         caught = true;
         expect(err).toMatch("predicate not fulfilled");
@@ -26,7 +26,7 @@ describe("shrink", () => {
   });
 
   it("works for shrinks with no children", async () => {
-    expect(await runShrink(42, n => empty(), n => true)).toEqual(42);
+    expect(await runShrink(42, _n => empty(), _n => true)).toEqual(42);
   });
 
   it("works for shrinks with multiple children", async () => {

@@ -1,7 +1,14 @@
 parser: babel-eslint
 plugins:
+  - react
   - sort-imports-es6-autofix
 rules:
   curly: ["error", "all"]
   sort-imports-es6-autofix/sort-imports-es6:
     - error
+  no-unused-vars:
+    - error
+    - argsIgnorePattern: "^_"
+      varsIgnorePattern: "^_"
+  react/jsx-uses-vars: error
+  react/jsx-uses-react: error

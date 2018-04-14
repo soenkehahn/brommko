@@ -1,8 +1,6 @@
 // @flow
 
-import { Scene, fillInWalls } from "./scene";
 import { type Stream, last } from "./utils";
-import { findPath } from "./findPath";
 import _ from "lodash";
 
 export async function search<A, Fitness: { fitness: number }>(options: {|

@@ -3,7 +3,6 @@
 import { Render } from "./render.js";
 import { Scene } from "../scene.js";
 import { mount } from "enzyme";
-import { simulateKeyEvent } from "../testUtils";
 import React from "react";
 
 describe("renderScene", () => {

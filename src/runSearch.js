@@ -2,11 +2,7 @@
 
 // @flow
 
-import {
-  type SceneProperties,
-  sceneFitness,
-  scenePropertiesSchema
-} from "./fitness";
+import { type SceneProperties, scenePropertiesSchema } from "./fitness";
 import { mkScene } from "./scene";
 import { validate } from "validated/json5";
 

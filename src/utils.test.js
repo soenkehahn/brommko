@@ -63,7 +63,7 @@ describe("deleteIndex", () => {
 });
 
 describe("mutateArray", () => {
-  function mutateInt(n: number): number {
+  function mutateInt(_n: number): number {
     return randomInt(0, 10);
   }
 

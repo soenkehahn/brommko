@@ -14,7 +14,7 @@ describe("director", () => {
       scene.addDirector({ x: 1, y: 0 }, "right");
       scene.addDirector({ x: 2, y: 0 }, "down");
       scene.addDirector({ x: 3, y: 0 }, "left");
-      const wrapper = mount(<Render scene={scene} />);
+      mount(<Render scene={scene} />);
     });
 
     it("returns a polygon with a correct position (through a translate transform)", () => {

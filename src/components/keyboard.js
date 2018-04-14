@@ -1,7 +1,5 @@
 // @flow
 
-import * as React from "react";
-
 type KeyEvent = {
   code: string
 };
