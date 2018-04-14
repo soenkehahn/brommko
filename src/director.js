@@ -2,7 +2,7 @@
 
 import React, { type Element } from "react";
 import { type Position, randomPosition, mutatePosition, Scene } from "./scene";
-import { Render } from "./render";
+import { Render } from "./components/render";
 import { pick } from "./random";
 import _ from "lodash";
 

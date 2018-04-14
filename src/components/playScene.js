@@ -2,7 +2,7 @@
 
 import React, { Component, type ComponentType } from "react";
 import { Render } from "./render";
-import { Scene } from "./scene";
+import { Scene } from "../scene";
 import { handleKeyboard } from "./keyboard";
 
 export function mkPlayScene(scene: Scene): ComponentType<{}> {

@@ -3,9 +3,9 @@
 import React from "react";
 import { mount } from "enzyme";
 import { mkPlayScene } from "./playScene";
-import { simulateKeyEvent } from "./testUtils";
+import { simulateKeyEvent } from "../testUtils";
 import { Render } from "./render";
-import { Scene } from "./scene";
+import { Scene } from "../scene";
 
 describe("PlayScene", () => {
   it("renders without crashing", () => {

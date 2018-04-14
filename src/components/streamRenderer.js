@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, type ComponentType, type Element } from "react";
-import { type Stream } from "./utils";
+import { type Stream } from "../utils";
 
 export function mkStreamRenderer<A>(
   stream: Stream<A>,

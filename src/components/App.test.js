@@ -1,6 +1,6 @@
 // @flow
 
-import { renderComponents } from "./index";
+import { renderComponents } from "./App";
 
 describe("renderComponents", () => {
   it("renders the key and value of objects", () => {

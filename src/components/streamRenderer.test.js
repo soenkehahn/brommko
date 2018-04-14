@@ -2,7 +2,7 @@
 
 import React, { Component, type Element } from "react";
 import { mkStreamRenderer } from "./streamRenderer";
-import { toStream } from "./utils";
+import { toStream } from "../utils";
 import { mount } from "enzyme";
 
 function wait(n: number): Promise<void> {

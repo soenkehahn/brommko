@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, type Element } from "react";
-import { Scene, type Position } from "./scene";
+import { Scene, type Position } from "../scene";
 
 export class Render extends Component<{ scene: Scene }> {
   svgWidth: number = 800;

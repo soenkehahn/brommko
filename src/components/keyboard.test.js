@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import { mount } from "enzyme";
 import { handleKeyboard } from "./keyboard";
-import { simulateKeyEvent } from "./testUtils";
+import { simulateKeyEvent } from "../testUtils";
 
 class Test extends Component<{}, { keydowns: Array<string> }> {
   state = { keydowns: [] };

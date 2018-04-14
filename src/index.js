@@ -2,11 +2,12 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { mkPlayScene } from "./playScene";
+import { mkPlayScene } from "./components/playScene";
 import { Scene, sceneSearchOptions, fillInWalls } from "./scene";
-import { mkStreamRenderer } from "./streamRenderer";
+import { mkStreamRenderer } from "./components/streamRenderer";
 import { searchStream } from "./search";
-import { Render } from "./render";
+import { Render } from "./components/render";
+import { App } from "./components/App";
 
 function mount(Komponent) {
   const domElement = document.getElementById("root");
@@ -16,40 +17,8 @@ function mount(Komponent) {
   ReactDOM.render(<Komponent />, domElement);
 }
 
-export function renderComponents(obj: ?{}): string {
-  let result = [];
-  for (const key in obj) {
-    result.push(`${key}: ${obj[key]}`);
-  }
-  return result.join(" --- ");
-}
-
 async function main() {
-  const targetProperties = {
-    pathLength: 3,
-    directionChanges: 0,
-    switches: 0,
-    directors: 2
-  };
-  const stream = searchStream(sceneSearchOptions(targetProperties));
-  const StreamRenderer = mkStreamRenderer(
-    stream,
-    props => (
-      <div>
-        <Render scene={props.element.element} />
-        <div>
-          {renderComponents(props.element.fitness.sceneProperties)} ---
-          (current)
-        </div>
-        <div>{renderComponents(targetProperties)} --- (target)</div>
-      </div>
-    ),
-    best => {
-      const PlayScene = mkPlayScene(fillInWalls(best.element));
-      return () => <PlayScene />;
-    }
-  );
-  mount(StreamRenderer);
+  mount(App);
 }
 
 if (!module.parent) {
