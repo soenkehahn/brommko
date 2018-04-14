@@ -200,15 +200,15 @@ describe("Scene", () => {
       expect(after).toEqual(before);
     });
   });
-});
 
-describe("mutate", () => {
-  it("calls _normalize", () => {
-    let scene = new Scene();
-    scene.addWalls({ x: 2, y: 3 });
-    scene.addWalls({ x: 2, y: 3 });
-    expect(scene.walls).toEqual([{ x: 2, y: 3 }, { x: 2, y: 3 }]);
-    scene = Scene.mutate(scene);
-    expect(scene.walls).toEqual(removeDuplicates(scene.walls));
+  describe("mutate", () => {
+    it("calls _normalize", () => {
+      let scene = new Scene();
+      scene.addWalls({ x: 2, y: 3 });
+      scene.addWalls({ x: 2, y: 3 });
+      expect(scene.walls).toEqual([{ x: 2, y: 3 }, { x: 2, y: 3 }]);
+      scene = Scene.mutate(scene);
+      expect(scene.walls).toEqual(removeDuplicates(scene.walls));
+    });
   });
 });
