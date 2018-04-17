@@ -1,6 +1,9 @@
 // @flow
 
-import { App } from "./components/App";
+import { Scene } from "./scene";
+import { arrayOf, partialObject } from "validated/schema";
+import { mkPlayScene } from "./components/playScene";
+import { validate } from "validated/object";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -12,8 +15,16 @@ function mount(Komponent) {
   ReactDOM.render(<Komponent />, domElement);
 }
 
+export function readLevels(): Array<Scene> {
+  return validate(arrayOf(partialObject({})), require("../levels.json")).map(
+    Scene.fromJSON
+  );
+}
+
 async function main() {
-  mount(App);
+  const levels = readLevels();
+  const PlayScene = mkPlayScene(levels);
+  mount(PlayScene);
 }
 
 if (!module.parent) {

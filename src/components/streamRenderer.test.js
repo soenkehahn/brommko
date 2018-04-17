@@ -2,14 +2,8 @@
 
 import { mkStreamRenderer } from "./streamRenderer";
 import { mount } from "enzyme";
-import { toStream } from "../utils";
+import { toStream, wait } from "../utils";
 import React, { type Element } from "react";
-
-function wait(n: number): Promise<void> {
-  return new Promise(resolve => {
-    setTimeout(resolve, n * 1000);
-  });
-}
 
 async function waitUntil(action: () => void, n: number = 100): Promise<void> {
   try {

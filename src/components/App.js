@@ -36,7 +36,7 @@ export const App = mkStreamRenderer(
     </div>
   ),
   best => {
-    const PlayScene = mkPlayScene(fillInWalls(best.element));
+    const PlayScene = mkPlayScene([fillInWalls(best.element)]);
     return () => <PlayScene />;
   }
 );

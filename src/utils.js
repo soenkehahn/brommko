@@ -109,3 +109,9 @@ export function removeDuplicates<A>(array: Array<A>): Array<A> {
   }
   return result;
 }
+
+export function wait(n: number): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(resolve, n * 1000);
+  });
+}

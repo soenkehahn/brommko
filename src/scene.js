@@ -2,10 +2,18 @@
 
 import { type Direction, Director } from "./director";
 import { type SceneProperties, sceneFitness } from "./fitness";
+import {
+  arrayOf,
+  enumeration,
+  number,
+  object,
+  partialObject
+} from "validated/schema";
 import { findPath, simulate } from "./findPath";
 import { mutateArray, randomInt, removeDuplicates } from "./utils";
 import { pick } from "./random";
 import { search } from "./search";
+import { validate } from "validated/object";
 import _ from "lodash";
 import boxmuller from "box-muller";
 
@@ -96,6 +104,35 @@ export class Scene {
     return result;
   }
 
+  static fromJSON(json: mixed): Scene {
+    const positionSchema = object({
+      x: number,
+      y: number
+    });
+    const schema = partialObject({
+      goal: positionSchema,
+      walls: arrayOf(positionSchema),
+      switches: arrayOf(partialObject({ position: positionSchema })),
+      directors: arrayOf(
+        partialObject({
+          position: positionSchema,
+          direction: enumeration("up", "right", "down", "left")
+        })
+      )
+    });
+    const valid = validate(schema, json);
+    const scene = new Scene();
+    scene.setGoal(valid.goal);
+    scene.addWalls(valid.walls);
+    for (const s of valid.switches) {
+      scene.addSwitch(s.position);
+    }
+    for (const director of valid.directors) {
+      scene.addDirector(director.position, director.direction);
+    }
+    return scene;
+  }
+
   static mutate(scene: Scene): Scene {
     const result = scene.clone();
     pick(
@@ -150,6 +187,10 @@ export class Scene {
     this.switches.push(new Switch(switsch));
   }
 
+  addDirector(position: Position, direction: Direction) {
+    this.directors.push(new Director(position, direction));
+  }
+
   _normalize(): void {
     this.walls = removeDuplicates(this.walls);
     this.walls = _.filter(this.walls, e => !_.isEqual(e, this.player));
@@ -161,10 +202,6 @@ export class Scene {
           _.isEqual(e.position, this.player) || _.isEqual(e.position, this.goal)
         )
     );
-  }
-
-  addDirector(position: Position, direction: Direction) {
-    this.directors.push(new Director(position, direction));
   }
 
   step(keycode: string): void {

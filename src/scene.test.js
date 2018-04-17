@@ -211,4 +211,15 @@ describe("Scene", () => {
       expect(scene.walls).toEqual(removeDuplicates(scene.walls));
     });
   });
+
+  describe("fromJSON", () => {
+    it("reads JSON back into a Scene object", () => {
+      let scene = new Scene();
+      for (let i = 0; i < 100; i++) {
+        const readScene = Scene.fromJSON(JSON.parse(JSON.stringify(scene)));
+        expect(toJSON(readScene)).toEqual(toJSON(scene));
+        scene = Scene.mutate(scene);
+      }
+    });
+  });
 });
