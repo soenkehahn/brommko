@@ -1,7 +1,7 @@
 // @flow
 
-import { Scene } from "./scene";
-import { readLevels } from "./index";
+import { Scene } from "../scene";
+import { readLevels } from "./pregenerated";
 
 describe("readLevels", () => {
   it("works", () => {

@@ -4,6 +4,7 @@
     "lodash": "^4.17.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
     "validated": "^1.2.0"
   },
   "devDependencies": {
@@ -21,6 +22,7 @@
     "eslint-plugin-sort-imports-es6-autofix": "^0.3.0",
     "flow-bin": "^0.68.0",
     "flow-typed": "^2.4.0",
+    "history": "^4.7.2",
     "jest": "^22.4.3",
     "jest-enzyme": "^6.0.0",
     "webpack": "^4.2.0",

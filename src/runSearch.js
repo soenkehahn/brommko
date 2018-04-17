@@ -4,7 +4,7 @@
 
 import { Scene, mkScene } from "./scene";
 import { type SceneProperties } from "./fitness";
-import { readLevels } from "./index";
+import { readLevels } from "./components/pregenerated";
 import { spawnSync } from "child_process";
 import { writeFileSync } from "fs";
 
