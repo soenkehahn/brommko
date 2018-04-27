@@ -6,6 +6,7 @@ import { Router } from "react-router-dom";
 import { type SceneProperties } from "../fitness";
 import { createMemoryHistory } from "history";
 import { mount } from "enzyme";
+import { waitUntil } from "../testUtils";
 import React from "react";
 
 describe("App", () => {
@@ -25,46 +26,58 @@ describe("App", () => {
   });
 
   describe("when given scene properties in the path", () => {
-    it("renders level generation", () => {
+    it("renders level generation", async () => {
       history.push("/3");
-      app.update();
-      expect(app.find("Generate")).toExist();
+      await waitUntil(() => {
+        app.update();
+        expect(app.find("Generate")).toExist();
+      });
     });
 
-    it("passes the target properties into Generate", () => {
+    it("passes the target properties into Generate", async () => {
       history.push("/3/1/2/1");
-      app.update();
       const expected: SceneProperties = {
         pathLength: 3,
         directionChanges: 1,
         switches: 2,
         directors: 1
       };
-      expect(app.find("Generate").instance().sceneProperties).toEqual(expected);
+      await waitUntil(() => {
+        app.update();
+        expect(app.find("Generate").instance().sceneProperties).toEqual(
+          expected
+        );
+      });
     });
 
-    it("passes the default target properties into Generate when not all are given", () => {
+    it("passes the default target properties into Generate when not all are given", async () => {
       history.push("/3");
-      app.update();
       const expected: SceneProperties = {
         pathLength: 3,
         directionChanges: 0,
         switches: 0,
         directors: 0
       };
-      expect(app.find("Generate").instance().sceneProperties).toEqual(expected);
+      await waitUntil(() => {
+        app.update();
+        expect(app.find("Generate").instance().sceneProperties).toEqual(
+          expected
+        );
+      });
     });
   });
 
-  it("handles invalid paths gracefully", () => {
+  it("handles invalid paths gracefully", async () => {
     history.push("/3/foo");
-    app.update();
     const expected: SceneProperties = {
       pathLength: 3,
       directionChanges: 0,
       switches: 0,
       directors: 0
     };
-    expect(app.find("Generate").instance().sceneProperties).toEqual(expected);
+    await waitUntil(() => {
+      app.update();
+      expect(app.find("Generate").instance().sceneProperties).toEqual(expected);
+    });
   });
 });

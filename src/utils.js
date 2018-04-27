@@ -4,17 +4,17 @@ import { pick } from "./random";
 import _ from "lodash";
 
 export type Stream<A> = {
-  next: () => ?A
+  next: () => Promise<?A>
 };
 
 export function empty<A>(): Stream<A> {
-  return { next: () => null };
+  return { next: async () => null };
 }
 
 export function toStream<A>(array: Array<A>): Stream<A> {
   let index = 0;
   return {
-    next: () => {
+    next: async () => {
       if (index >= array.length) {
         return null;
       } else {
@@ -25,23 +25,23 @@ export function toStream<A>(array: Array<A>): Stream<A> {
 }
 
 export async function last<A>(stream: Stream<A>): Promise<A> {
-  let element = stream.next();
+  let element = await stream.next();
   if (element == null) {
     throw "last: empty stream";
   }
-  let next = stream.next();
+  let next = await stream.next();
   while (next != null) {
     await null;
     element = next;
-    next = stream.next();
+    next = await stream.next();
   }
   return element;
 }
 
 export function mapStream<A, B>(f: A => B, stream: Stream<A>): Stream<B> {
   return {
-    next: () => {
-      const input = stream.next();
+    next: async () => {
+      const input = await stream.next();
       if (input !== null && input !== undefined) {
         return f(input);
       } else {
@@ -108,10 +108,4 @@ export function removeDuplicates<A>(array: Array<A>): Array<A> {
     }
   }
   return result;
-}
-
-export function wait(n: number): Promise<void> {
-  return new Promise(resolve => {
-    setTimeout(resolve, n * 1000);
-  });
 }

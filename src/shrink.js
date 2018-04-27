@@ -20,7 +20,7 @@ async function runShrink_<A>(
 ): Promise<A> {
   const children = shrink(start);
   let child;
-  while ((child = children.next())) {
+  while ((child = await children.next())) {
     await null;
     if (predicate(child)) {
       return runShrink_(child, shrink, predicate);

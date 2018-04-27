@@ -3,15 +3,15 @@
 import { Scene } from "./scene";
 import { type Stream, mapStream } from "./utils";
 
-export function findPath(
+export async function findPath(
   targetScene: Scene,
   maxLength: number = 6
-): ?{ path: Array<string>, scene: Scene } {
+): Promise<?{ path: Array<string>, scene: Scene }> {
   const stream: Stream<{ scene: Scene, path: Array<string> }> = mapStream(
     path => ({ scene: targetScene.clone(), path: path }),
     mkAllPaths(maxLength)
   );
-  return findFirst(stream, ({ path, scene: clone }) => {
+  return await findFirst(stream, ({ path, scene: clone }) => {
     simulate(clone, path);
     return clone.success;
   });
@@ -40,7 +40,7 @@ export function mkAllPaths(maxLength: number): Stream<Array<string>> {
   }
 
   return {
-    next: () => {
+    next: async () => {
       if (path.length <= maxLength) {
         step(0);
         return Array.from((path: Array<string>)).reverse();
@@ -57,10 +57,13 @@ export function simulate(scene: Scene, path: Array<string>): void {
   }
 }
 
-function findFirst<A>(stream: Stream<A>, predicate: A => boolean): ?A {
-  let element = stream.next();
+async function findFirst<A>(
+  stream: Stream<A>,
+  predicate: A => boolean
+): Promise<?A> {
+  let element = await stream.next();
   while (element && !predicate(element)) {
-    element = stream.next();
+    element = await stream.next();
   }
   return element;
 }

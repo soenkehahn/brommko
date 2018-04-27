@@ -229,9 +229,9 @@ export class Scene {
   }
 }
 
-export function fillInWalls(scene: Scene): Scene {
+export async function fillInWalls(scene: Scene): Promise<Scene> {
   const result = scene.clone();
-  const solution = findPath(result);
+  const solution = await findPath(result);
   if (solution == null) {
     throw "fillInWalls: can't find path";
   }

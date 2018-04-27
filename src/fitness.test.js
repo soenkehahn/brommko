@@ -11,9 +11,9 @@ describe("sceneFitness", () => {
 
   describe("path length", () => {
     describe("when training for a path length of 2", () => {
-      it("returns zero for a path length of 2", () => {
+      it("returns zero for a path length of 2", async () => {
         scene.setGoal({ x: 2, y: 0 });
-        const fitness: number = sceneFitness(
+        const fitness: number = (await sceneFitness(
           {
             pathLength: 2,
             directionChanges: 0,
@@ -21,13 +21,13 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(0);
       });
 
-      it("it returns the distance to the wanted value for longer paths", () => {
+      it("it returns the distance to the wanted value for longer paths", async () => {
         scene.setGoal({ x: 3, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 2,
             directionChanges: 0,
@@ -35,13 +35,13 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(1);
       });
 
-      it("it returns the distance to the wanted value for shorter paths", () => {
+      it("it returns the distance to the wanted value for shorter paths", async () => {
         scene.setGoal({ x: 1, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 2,
             directionChanges: 0,
@@ -49,7 +49,7 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(1);
       });
     });
@@ -57,9 +57,9 @@ describe("sceneFitness", () => {
 
   describe("direction changes", () => {
     describe("when requesting 1 direction change", () => {
-      it("returns zero for an optimal solution", () => {
+      it("returns zero for an optimal solution", async () => {
         scene.setGoal({ x: 1, y: 1 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 2,
             directionChanges: 1,
@@ -67,15 +67,15 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(0);
       });
 
-      it("returns the distance for more direction changes", () => {
+      it("returns the distance for more direction changes", async () => {
         scene.addWalls({ x: 0, y: 2 });
         scene.addWalls({ x: 1, y: 0 });
         scene.setGoal({ x: 1, y: 2 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 3,
             directionChanges: 1,
@@ -83,13 +83,13 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(10);
       });
 
-      it("returns the distance for less direction changes", () => {
+      it("returns the distance for less direction changes", async () => {
         scene.setGoal({ x: 2, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 2,
             directionChanges: 1,
@@ -97,7 +97,7 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(10);
       });
     });
@@ -105,11 +105,11 @@ describe("sceneFitness", () => {
 
   describe("number of switches", () => {
     describe("when requesting 2 switches", () => {
-      it("returns zero for an optimal solution", () => {
+      it("returns zero for an optimal solution", async () => {
         scene.addSwitch({ x: 1, y: 0 });
         scene.addSwitch({ x: 2, y: 0 });
         scene.setGoal({ x: 4, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -117,16 +117,16 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(0);
       });
 
-      it("returns the distance for more switches", () => {
+      it("returns the distance for more switches", async () => {
         scene.addSwitch({ x: 1, y: 0 });
         scene.addSwitch({ x: 2, y: 0 });
         scene.addSwitch({ x: 3, y: 0 });
         scene.setGoal({ x: 4, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -134,14 +134,14 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(100);
       });
 
-      it("returns the distance for less switches", () => {
+      it("returns the distance for less switches", async () => {
         scene.addSwitch({ x: 1, y: 0 });
         scene.setGoal({ x: 4, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -149,7 +149,7 @@ describe("sceneFitness", () => {
             directors: 0
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(100);
       });
     });
@@ -157,10 +157,10 @@ describe("sceneFitness", () => {
 
   describe("number of directors", () => {
     describe("when requesting one passed director", () => {
-      it("returns zero for an optimal solution", () => {
+      it("returns zero for an optimal solution", async () => {
         scene.addDirector({ x: 0, y: 1 }, "left");
         scene.setGoal({ x: -1, y: 4 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -168,13 +168,13 @@ describe("sceneFitness", () => {
             directors: 1
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(0);
       });
 
-      it("returns the distance for less directors", () => {
+      it("returns the distance for less directors", async () => {
         scene.setGoal({ x: 4, y: 0 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -182,15 +182,15 @@ describe("sceneFitness", () => {
             directors: 1
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(100);
       });
 
-      it("returns the distance for more directors", () => {
+      it("returns the distance for more directors", async () => {
         scene.addDirector({ x: 0, y: 1 }, "left");
         scene.addDirector({ x: -1, y: 2 }, "left");
         scene.setGoal({ x: -2, y: 4 });
-        const fitness = sceneFitness(
+        const fitness = (await sceneFitness(
           {
             pathLength: 4,
             directionChanges: 0,
@@ -198,7 +198,7 @@ describe("sceneFitness", () => {
             directors: 1
           },
           scene
-        ).fitness;
+        )).fitness;
         expect(fitness).toEqual(100);
       });
     });

@@ -6,7 +6,7 @@ import React, { Component, type ComponentType } from "react";
 export function mkStreamRenderer<A>(
   stream: Stream<A>,
   Render: ComponentType<{ element: A }>,
-  mkSuccessor: A => ComponentType<{}>
+  mkSuccessor: A => Promise<ComponentType<{}>>
 ): ComponentType<{}> {
   return class StreamRenderer extends Component<
     {},
@@ -14,15 +14,15 @@ export function mkStreamRenderer<A>(
   > {
     state = { element: null, successor: null };
 
-    loop() {
-      setTimeout(() => {
-        const next = stream.next();
+    async loop() {
+      setTimeout(async () => {
+        const next = await stream.next();
         if (next != null) {
           this.setState({ element: next });
           this.loop();
         } else {
           if (this.state.element != null) {
-            this.setState({ successor: mkSuccessor(this.state.element) });
+            this.setState({ successor: await mkSuccessor(this.state.element) });
           }
         }
       });

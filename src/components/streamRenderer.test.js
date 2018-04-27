@@ -2,24 +2,12 @@
 
 import { mkStreamRenderer } from "./streamRenderer";
 import { mount } from "enzyme";
-import { toStream, wait } from "../utils";
+import { toStream } from "../utils";
+import { waitUntil } from "../testUtils";
 import React, { type Element } from "react";
 
-async function waitUntil(action: () => void, n: number = 100): Promise<void> {
-  try {
-    action();
-  } catch (err) {
-    if (n > 0) {
-      await wait(0.01);
-      await waitUntil(action, n - 1);
-    } else {
-      throw err;
-    }
-  }
-}
-
 describe("StreamRenderer", () => {
-  const Successor = n => () => <div>rendered successor: {n}</div>;
+  const mkSuccessor = async n => () => <div>rendered successor: {n}</div>;
 
   it("renders all elements of a given stream", async () => {
     const rendered = [];
@@ -30,7 +18,7 @@ describe("StreamRenderer", () => {
     const StreamRenderer = mkStreamRenderer(
       toStream([1, 2, 3]),
       render,
-      Successor
+      mkSuccessor
     );
     mount(<StreamRenderer />);
     await waitUntil(() => {
@@ -40,8 +28,8 @@ describe("StreamRenderer", () => {
 
   it("renders an element", async () => {
     const render = props => <div>number: {props.element}</div>;
-    const constant = a => ({ next: () => a });
-    const StreamRenderer = mkStreamRenderer(constant(3), render, Successor);
+    const constant = a => ({ next: async () => a });
+    const StreamRenderer = mkStreamRenderer(constant(3), render, mkSuccessor);
     const wrapper = mount(<StreamRenderer />);
     await waitUntil(() => {
       expect(wrapper.text()).toEqual("number: 3");
@@ -53,7 +41,7 @@ describe("StreamRenderer", () => {
     const StreamRenderer = mkStreamRenderer(
       toStream([1, 2, 3]),
       render,
-      Successor
+      mkSuccessor
     );
     const wrapper = mount(<StreamRenderer />);
     await waitUntil(() => {

@@ -13,18 +13,18 @@ import {
 
 describe("Stream functions", () => {
   describe("empty", () => {
-    it("returns an empty stream", () => {
-      expect(empty().next()).toEqual(null);
+    it("returns an empty stream", async () => {
+      expect(await empty().next()).toEqual(null);
     });
   });
 
   describe("toStream", () => {
-    it("converts an array into a stream", () => {
+    it("converts an array into a stream", async () => {
       const stream = toStream([1, 2, 3]);
-      expect(stream.next()).toEqual(1);
-      expect(stream.next()).toEqual(2);
-      expect(stream.next()).toEqual(3);
-      expect(stream.next()).toEqual(null);
+      expect(await stream.next()).toEqual(1);
+      expect(await stream.next()).toEqual(2);
+      expect(await stream.next()).toEqual(3);
+      expect(await stream.next()).toEqual(null);
     });
   });
 
@@ -46,12 +46,12 @@ describe("Stream functions", () => {
   });
 
   describe("map", () => {
-    it("iterates over a given stream", () => {
+    it("iterates over a given stream", async () => {
       const stream = mapStream(e => e * 2, toStream([1, 2, 3]));
-      expect(stream.next()).toEqual(2);
-      expect(stream.next()).toEqual(4);
-      expect(stream.next()).toEqual(6);
-      expect(stream.next()).toEqual(null);
+      expect(await stream.next()).toEqual(2);
+      expect(await stream.next()).toEqual(4);
+      expect(await stream.next()).toEqual(6);
+      expect(await stream.next()).toEqual(null);
     });
   });
 });

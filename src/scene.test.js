@@ -116,14 +116,14 @@ describe("switches", () => {
 });
 
 describe("fillInWalls", () => {
-  it("fills in all possible walls", () => {
-    const scene = fillInWalls(new Scene());
+  it("fills in all possible walls", async () => {
+    const scene = await fillInWalls(new Scene());
     expect(scene.walls).toContainEqual({ x: -3, y: -3 });
     expect(scene.walls).toContainEqual({ x: 3, y: 3 });
   });
 
   it("doesn't put a wall where the player is", async () => {
-    const scene = fillInWalls(new Scene());
+    const scene = await fillInWalls(new Scene());
     expect(scene.walls).not.toContainEqual({ x: 0, y: 0 });
   });
 });

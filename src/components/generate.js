@@ -16,8 +16,8 @@ export function renderComponents(obj: ?{}): string {
   return result.join(" --- ");
 }
 
-export function mkGenerate(properties: SceneProperties) {
-  const stream = searchStream(sceneSearchOptions(properties));
+export async function mkGenerate(properties: SceneProperties) {
+  const stream = await searchStream(sceneSearchOptions(properties));
   const inner = mkStreamRenderer(
     stream,
     props => (
@@ -30,8 +30,8 @@ export function mkGenerate(properties: SceneProperties) {
         <div>{renderComponents(properties)} --- (target)</div>
       </div>
     ),
-    best => {
-      const PlayScene = mkPlayScene([fillInWalls(best.element)]);
+    async best => {
+      const PlayScene = mkPlayScene([await fillInWalls(best.element)]);
       return () => <PlayScene />;
     }
   );

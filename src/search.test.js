@@ -13,7 +13,7 @@ describe("search", () => {
       return pick(() => n + 1, () => n - 1);
     }
 
-    function fitness(n) {
+    async function fitness(n) {
       return { fitness: Math.abs(42 - n) };
     }
 
@@ -36,7 +36,7 @@ describe("search", () => {
         ),
       start: new Scene()
     });
-    const solution = failNull(findPath(result)).path;
+    const solution = failNull(await findPath(result)).path;
     expect(solution.length).toEqual(2);
     expect(solution[0]).toEqual(solution[1]);
   });

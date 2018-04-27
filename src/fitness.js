@@ -19,14 +19,14 @@ export const scenePropertiesSchema: Node<SceneProperties> = object({
   directors: number
 });
 
-export function sceneFitness(
+export async function sceneFitness(
   targetProperties: SceneProperties,
   scene: Scene
-): {|
+): Promise<{|
   fitness: number,
   sceneProperties: ?SceneProperties
-|} {
-  const solution = findPath(scene);
+|}> {
+  const solution = await findPath(scene);
   if (!solution) {
     return { fitness: Infinity, sceneProperties: null };
   }
