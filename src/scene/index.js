@@ -1,6 +1,6 @@
 // @flow
 
-import { type Direction, Director } from "./director";
+import { type Direction, Director } from "../director";
 import { type SceneProperties, sceneFitness } from "./fitness";
 import {
   arrayOf,
@@ -9,10 +9,10 @@ import {
   object,
   partialObject
 } from "validated/schema";
-import { findPath, simulate } from "./findPath";
-import { mutateArray, randomInt, removeDuplicates } from "./utils";
-import { pick } from "./random";
-import { search } from "./search";
+import { findPath, simulate } from "../findPath";
+import { mutateArray, randomInt, removeDuplicates } from "../utils";
+import { pick } from "../random";
+import { search } from "../search";
 import { validate } from "validated/object";
 import _ from "lodash";
 import boxmuller from "box-muller";

@@ -1,6 +1,6 @@
 // @flow
 
-import { Scene } from "./scene.js";
+import { Scene } from "./scene";
 import { failNull } from "./testUtils";
 import { findPath, mkAllPaths } from "./findPath";
 

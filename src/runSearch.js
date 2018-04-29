@@ -3,7 +3,7 @@
 // @flow
 
 import { Scene, mkScene } from "./scene";
-import { type SceneProperties } from "./fitness";
+import { type SceneProperties } from "./scene/fitness";
 import { readLevels } from "./components/pregenerated";
 import { spawnSync } from "child_process";
 import { writeFileSync } from "fs";

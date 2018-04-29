@@ -2,7 +2,7 @@
 
 import { Render } from "./render";
 import { Scene, fillInWalls } from "../scene";
-import { type SceneProperties } from "../fitness";
+import { type SceneProperties } from "../scene/fitness";
 import { mkPlayScene } from "./playScene";
 import { mkStreamRenderer } from "./streamRenderer";
 import { searchStream } from "../search";

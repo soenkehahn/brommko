@@ -5,7 +5,7 @@ import { Scene } from "./scene";
 import { failNull } from "./testUtils";
 import { findPath } from "./findPath";
 import { pick } from "./random";
-import { sceneFitness } from "./fitness";
+import { sceneFitness } from "./scene/fitness";
 
 describe("search", () => {
   it("finds solutions to a simple problem", async () => {

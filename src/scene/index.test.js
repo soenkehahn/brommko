@@ -1,7 +1,7 @@
 // @flow
 
-import { Scene, Switch, fillInWalls } from "./scene.js";
-import { removeDuplicates } from "./utils";
+import { Scene, Switch, fillInWalls } from "./index";
+import { removeDuplicates } from "../utils";
 import _ from "lodash";
 
 describe("player", () => {

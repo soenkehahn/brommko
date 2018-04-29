@@ -1,6 +1,6 @@
 // @flow
 
-import { Scene } from "./scene";
+import { Scene } from "./index";
 import { sceneFitness } from "./fitness";
 
 describe("sceneFitness", () => {

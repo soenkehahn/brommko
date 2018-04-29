@@ -1,7 +1,7 @@
 // @flow
 
 import { Render } from "./render.js";
-import { Scene } from "../scene.js";
+import { Scene } from "../scene";
 import { mount } from "enzyme";
 import React from "react";
 

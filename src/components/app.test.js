@@ -3,7 +3,7 @@
 import { App } from "./app";
 import { Pregenerated } from "./pregenerated";
 import { Router } from "react-router-dom";
-import { type SceneProperties } from "../fitness";
+import { type SceneProperties } from "../scene/fitness";
 import { createMemoryHistory } from "history";
 import { mount } from "enzyme";
 import { waitUntil } from "../testUtils";
