@@ -165,6 +165,13 @@ export class Scene {
     return result;
   }
 
+  static searchOperations(properties: SceneProperties) {
+    return {
+      mutate: Scene.mutate,
+      fitness: (scene: Scene) => sceneFitness(properties, scene)
+    };
+  }
+
   setPlayer(position: Position) {
     this.player = position;
   }
@@ -255,13 +262,7 @@ export async function fillInWalls(scene: Scene): Promise<Scene> {
   return result;
 }
 
-export const sceneSearchOptions = (properties: SceneProperties) => ({
-  mutate: Scene.mutate,
-  fitness: (scene: Scene) => sceneFitness(properties, scene),
-  start: new Scene()
-});
-
 export async function mkScene(properties: SceneProperties): Promise<Scene> {
-  const scene = await search(sceneSearchOptions(properties));
+  const scene = await search(Scene.searchOperations(properties), new Scene());
   return fillInWalls(scene);
 }

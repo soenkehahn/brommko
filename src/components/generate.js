@@ -1,8 +1,8 @@
 // @flow
 
 import { Render } from "./render";
+import { Scene, fillInWalls } from "../scene";
 import { type SceneProperties } from "../fitness";
-import { fillInWalls, sceneSearchOptions } from "../scene";
 import { mkPlayScene } from "./playScene";
 import { mkStreamRenderer } from "./streamRenderer";
 import { searchStream } from "../search";
@@ -17,7 +17,10 @@ export function renderComponents(obj: ?{}): string {
 }
 
 export async function mkGenerate(properties: SceneProperties) {
-  const stream = await searchStream(sceneSearchOptions(properties));
+  const stream = await searchStream(
+    Scene.searchOperations(properties),
+    new Scene()
+  );
   const inner = mkStreamRenderer(
     stream,
     props => (

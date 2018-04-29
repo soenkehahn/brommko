@@ -3,39 +3,65 @@
 import { type Stream, last } from "./utils";
 import _ from "lodash";
 
-export async function search<A, Fitness: { fitness: number }>(options: {|
+export type Operations<A, Fitness: { fitness: number }> = {|
   mutate: A => A,
-  fitness: A => Promise<Fitness>,
+  fitness: A => Promise<Fitness>
+|};
+
+export async function search<A, Fitness: { fitness: number }>(
+  operations: Operations<A, Fitness>,
   start: A
-|}): Promise<A> {
-  return (await last(await searchStream(options))).element;
+): Promise<A> {
+  return (await last(await searchStream(operations, start))).element;
 }
 
-export async function searchStream<A, Fitness: { fitness: number }>(options: {|
-  mutate: A => A,
-  fitness: A => Promise<Fitness>,
+type Candidate<A, Fitness: { fitness: number }> = {
+  element: A,
+  fitness: Fitness
+};
+
+export async function searchStream<A, Fitness: { fitness: number }>(
+  operations: Operations<A, Fitness>,
   start: A
-|}): Promise<
-  Stream<{
-    element: A,
-    fitness: Fitness
-  }>
-> {
-  const { mutate, fitness, start } = options;
-  let best = start;
-  let currentFitness = await fitness(best);
+): Promise<Stream<Candidate<A, Fitness>>> {
+  let current: Candidate<A, Fitness> = await mkCandidate(operations, start);
   return {
     next: async () => {
-      while (currentFitness.fitness > 0) {
-        const mutated = mutate(best);
-        const mutatedFitness = await fitness(mutated);
-        if (mutatedFitness.fitness <= currentFitness.fitness) {
-          best = mutated;
-          currentFitness = mutatedFitness;
-          return { element: best, fitness: currentFitness };
+      while (current.fitness.fitness > 0) {
+        const mutated: null | Candidate<A, Fitness> = await _tryMutation(
+          operations,
+          current
+        );
+        if (mutated !== null) {
+          current = mutated;
+          return current;
         }
       }
-      return null;
     }
   };
+}
+
+async function mkCandidate<A, Fitness: { fitness: number }>(
+  operations: Operations<A, Fitness>,
+  a: A
+): Promise<Candidate<A, Fitness>> {
+  return {
+    element: a,
+    fitness: await operations.fitness(a)
+  };
+}
+
+export async function _tryMutation<A, Fitness: { fitness: number }>(
+  operations: Operations<A, Fitness>,
+  candidate: Candidate<A, Fitness>
+): Promise<null | Candidate<A, Fitness>> {
+  const mutated: Candidate<A, Fitness> = await mkCandidate(
+    operations,
+    operations.mutate(candidate.element)
+  );
+  if (mutated.fitness.fitness <= candidate.fitness.fitness) {
+    return mutated;
+  } else {
+    return null;
+  }
 }
