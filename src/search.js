@@ -24,17 +24,16 @@ export async function searchStream<A, Fitness: { fitness: number }>(
   operations: Operations<A, Fitness>,
   start: A
 ): Promise<Stream<Candidate<A, Fitness>>> {
-  let current: Candidate<A, Fitness> = await mkCandidate(operations, start);
+  const mutator = await Mutator.create(operations, start);
   return {
     next: async () => {
-      while (current.fitness.fitness > 0) {
-        const mutated: null | Candidate<A, Fitness> = await _tryMutation(
-          operations,
-          current
-        );
+      while (!mutator.done()) {
+        const mutated: null | Candidate<
+          A,
+          Fitness
+        > = await mutator.nextMutation();
         if (mutated !== null) {
-          current = mutated;
-          return current;
+          return mutated;
         }
       }
     }
@@ -51,17 +50,43 @@ async function mkCandidate<A, Fitness: { fitness: number }>(
   };
 }
 
-export async function _tryMutation<A, Fitness: { fitness: number }>(
-  operations: Operations<A, Fitness>,
-  candidate: Candidate<A, Fitness>
-): Promise<null | Candidate<A, Fitness>> {
-  const mutated: Candidate<A, Fitness> = await mkCandidate(
-    operations,
-    operations.mutate(candidate.element)
-  );
-  if (mutated.fitness.fitness <= candidate.fitness.fitness) {
-    return mutated;
-  } else {
-    return null;
+type Impossible = true & false;
+
+export class Mutator<A, Fitness: { fitness: number }> {
+  operations: Operations<A, Fitness>;
+  current: Candidate<A, Fitness>;
+
+  // don't use 'new Mutator', but 'Mutator.create'!
+  constructor(x: Impossible) {
+    if (x !== "don't freak, called from new") {
+      throw new Error("don't use 'new Mutator', but 'new'!");
+    }
+  }
+
+  static async create<A, Fitness: { fitness: number }>(
+    operations: Operations<A, Fitness>,
+    start: A
+  ): Promise<Mutator<A, Fitness>> {
+    const mutator = new Mutator(("don't freak, called from new": any));
+    mutator.operations = operations;
+    mutator.current = await mkCandidate(operations, start);
+    return mutator;
+  }
+
+  done(): boolean {
+    return this.current.fitness.fitness <= 0;
+  }
+
+  async nextMutation(): Promise<null | Candidate<A, Fitness>> {
+    const mutated: Candidate<A, Fitness> = await mkCandidate(
+      this.operations,
+      this.operations.mutate(this.current.element)
+    );
+    if (mutated.fitness.fitness <= this.current.fitness.fitness) {
+      this.current = mutated;
+      return this.current;
+    } else {
+      return null;
+    }
   }
 }

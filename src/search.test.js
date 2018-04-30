@@ -1,6 +1,6 @@
 // @flow
 
-import { type Operations, _tryMutation, search } from "./search";
+import { Mutator, type Operations, search } from "./search";
 import { Scene } from "./scene";
 import { failNull } from "./testUtils";
 import { findPath } from "./findPath";
@@ -44,17 +44,14 @@ describe("search", () => {
   });
 });
 
-describe("tryMutation", () => {
+describe("nextMutation", () => {
   it("mutates the given candidate and returns it, if fitter", async () => {
     const ops: Operations<number, { fitness: number }> = {
       mutate: n => n - 1,
       fitness: async n => ({ fitness: n })
     };
-    const result = await _tryMutation(ops, {
-      element: 10,
-      fitness: await ops.fitness(10)
-    });
-    expect(failNull(result).element).toEqual(9);
+    const mutator = await Mutator.create(ops, 10);
+    expect(failNull(await mutator.nextMutation()).element).toEqual(9);
   });
 
   it("mutates the given candidate and returns null, if not fitter", async () => {
@@ -62,11 +59,8 @@ describe("tryMutation", () => {
       mutate: n => n + 1,
       fitness: async n => ({ fitness: n })
     };
-    const result = await _tryMutation(ops, {
-      element: 10,
-      fitness: await ops.fitness(10)
-    });
-    expect(result).toEqual(null);
+    const mutator = await Mutator.create(ops, 10);
+    expect(await mutator.nextMutation()).toEqual(null);
   });
 
   it("returns the mutation if equally fit", async () => {
@@ -74,10 +68,7 @@ describe("tryMutation", () => {
       mutate: n => n,
       fitness: async n => ({ fitness: n })
     };
-    const result = await _tryMutation(ops, {
-      element: 10,
-      fitness: await ops.fitness(10)
-    });
-    expect(failNull(result).element).toEqual(10);
+    const mutator = await Mutator.create(ops, 10);
+    expect(failNull(await mutator.nextMutation()).element).toEqual(10);
   });
 });
