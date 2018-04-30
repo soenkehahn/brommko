@@ -26,7 +26,7 @@ export async function sceneFitness(
   fitness: number,
   sceneProperties: ?SceneProperties
 |}> {
-  const solution = await findPath(scene);
+  const solution = await findPath(scene, targetProperties.pathLength + 1);
   if (!solution) {
     return { fitness: Infinity, sceneProperties: null };
   }

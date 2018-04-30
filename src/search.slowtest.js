@@ -23,7 +23,7 @@ it("finds a simple scene", async () => {
     },
     new Scene()
   );
-  const solution = failNull(await findPath(result)).path;
+  const solution = failNull(await findPath(result, 6)).path;
   expect(solution.length).toEqual(2);
   expect(solution[0]).toEqual(solution[1]);
 });

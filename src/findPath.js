@@ -5,7 +5,7 @@ import { type Stream, mapStream } from "./utils";
 
 export async function findPath(
   targetScene: Scene,
-  maxLength: number = 6
+  maxLength: number
 ): Promise<?{ path: Array<string>, scene: Scene }> {
   const stream: Stream<{ scene: Scene, path: Array<string> }> = mapStream(
     path => ({ scene: targetScene.clone(), path: path }),

@@ -7,19 +7,19 @@ import { findPath, mkAllPaths } from "./findPath";
 describe("findPath", () => {
   it("finds a solution to a simple scene", async () => {
     const scene = new Scene();
-    expect(failNull(await findPath(scene)).path).toEqual(["ArrowUp"]);
+    expect(failNull(await findPath(scene, 6)).path).toEqual(["ArrowUp"]);
   });
 
   it("also returns the solved scene", async () => {
     const scene = new Scene();
-    const solved: Scene = failNull(await findPath(scene)).scene;
+    const solved: Scene = failNull(await findPath(scene, 6)).scene;
     expect(solved.success).toEqual(true);
   });
 
   it("finds a longer solution", async () => {
     const scene = new Scene();
     scene.setGoal({ x: 0, y: 3 });
-    expect(failNull(await findPath(scene)).path).toEqual([
+    expect(failNull(await findPath(scene, 6)).path).toEqual([
       "ArrowUp",
       "ArrowUp",
       "ArrowUp"
@@ -39,7 +39,7 @@ describe("findPath", () => {
       { x: 0, y: 1 },
       { x: 1, y: 1 }
     ]);
-    expect(await findPath(scene)).toEqual(null);
+    expect(await findPath(scene, 6)).toEqual(null);
   });
 });
 
