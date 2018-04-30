@@ -33,6 +33,6 @@
     "setupTestFrameworkScriptFile": "./src/setupTests.js"
   },
   "scripts": {
-    "test": "flow && eslint src && jest"
+    "test": "flow && eslint src && jest && jest --testRegex slowtest.js$"
   }
 }
