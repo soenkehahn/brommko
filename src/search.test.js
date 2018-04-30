@@ -46,4 +46,62 @@ describe("nextMutation", () => {
     const mutator = await Mutator.create(ops, 10);
     expect(failNull(await mutator.nextMutation()).element).toEqual(10);
   });
+
+  describe("trying multiple mutations without increasing fitness", () => {
+    it("allows a less fit candidate", async () => {
+      const ops: Operations<number, { fitness: number }> = {
+        mutate: n => n + 1,
+        fitness: async n => ({ fitness: n })
+      };
+      const mutator = await Mutator.create(ops, 10);
+      let result;
+      for (let i = 0; i < 11; i++) {
+        result = await mutator.nextMutation();
+      }
+      expect(failNull(result).element).toEqual(11);
+    });
+
+    it("doesn't allow a much worse candidate", async () => {
+      const ops: Operations<number, { fitness: number }> = {
+        mutate: n => n + 10,
+        fitness: async n => ({ fitness: n })
+      };
+      const mutator = await Mutator.create(ops, 10);
+      let result;
+      for (let i = 0; i < 11; i++) {
+        result = await mutator.nextMutation();
+      }
+      expect(result).toEqual(null);
+    });
+
+    it("increases fitness margin linearly", async () => {
+      const ops: Operations<number, { fitness: number }> = {
+        mutate: n => n + 5,
+        fitness: async n => ({ fitness: n })
+      };
+      const mutator = await Mutator.create(ops, 10);
+      let result;
+      for (let i = 0; i < 50; i++) {
+        result = await mutator.nextMutation();
+      }
+      expect(result).toEqual(null);
+      result = await mutator.nextMutation();
+      expect(failNull(result).element).toEqual(15);
+    });
+
+    describe("when mutations have equal fitness for too long", () => {
+      it("increases the fitness margin", async () => {
+        const ops: Operations<number, { fitness: number }> = {
+          mutate: n => pick(() => n, () => n + 1),
+          fitness: async n => ({ fitness: n })
+        };
+        const mutator = await Mutator.create(ops, 10);
+        let result;
+        for (let i = 0; i < 50; i++) {
+          result = await mutator.nextMutation();
+        }
+        expect(failNull(result).element).toBeGreaterThan(10);
+      });
+    });
+  });
 });

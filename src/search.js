@@ -55,6 +55,7 @@ type Impossible = true & false;
 export class Mutator<A, Fitness: { fitness: number }> {
   operations: Operations<A, Fitness>;
   current: Candidate<A, Fitness>;
+  generationsWithoutSuccess: number = 0;
 
   // don't use 'new Mutator', but 'Mutator.create'!
   constructor(x: Impossible) {
@@ -82,10 +83,18 @@ export class Mutator<A, Fitness: { fitness: number }> {
       this.operations,
       this.operations.mutate(this.current.element)
     );
-    if (mutated.fitness.fitness <= this.current.fitness.fitness) {
+    const fitnessMargin = Math.floor(this.generationsWithoutSuccess / 10);
+    if (
+      mutated.fitness.fitness <=
+      this.current.fitness.fitness + fitnessMargin
+    ) {
+      if (mutated.fitness.fitness < this.current.fitness.fitness) {
+        this.generationsWithoutSuccess = 0;
+      }
       this.current = mutated;
       return this.current;
     } else {
+      this.generationsWithoutSuccess++;
       return null;
     }
   }
