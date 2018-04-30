@@ -10,5 +10,8 @@ rules:
     - error
     - argsIgnorePattern: "^_"
       varsIgnorePattern: "^_"
+  no-console:
+    - error
+    - allow: ["error"]
   react/jsx-uses-vars: error
   react/jsx-uses-react: error
